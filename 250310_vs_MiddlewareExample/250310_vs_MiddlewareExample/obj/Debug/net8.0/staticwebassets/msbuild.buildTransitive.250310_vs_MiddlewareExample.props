@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\250310_vs_MiddlewareExample.props" />
+</Project>

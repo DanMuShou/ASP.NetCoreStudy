@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>_250314_rider_RoutingExample</RootNamespace>
+        <AssemblyName>250314_rider_RoutingExample</AssemblyName>
+    </PropertyGroup>
+
+</Project>
