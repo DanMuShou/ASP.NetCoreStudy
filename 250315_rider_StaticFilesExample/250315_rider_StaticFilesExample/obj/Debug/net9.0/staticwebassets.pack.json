@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample\\wwwroot\\img1.png",
+      "PackagePath": "staticwebassets\\img1.png"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.250315_rider_StaticFilesExample.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.250315_rider_StaticFilesExample.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.250315_rider_StaticFilesExample.props",
+      "PackagePath": "build\\250315_rider_StaticFilesExample.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.250315_rider_StaticFilesExample.props",
+      "PackagePath": "buildMultiTargeting\\250315_rider_StaticFilesExample.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.250315_rider_StaticFilesExample.props",
+      "PackagePath": "buildTransitive\\250315_rider_StaticFilesExample.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

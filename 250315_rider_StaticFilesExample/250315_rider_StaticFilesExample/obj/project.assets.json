@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\.Project\\ASP.Net\\Study\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample.csproj",
+      "projectUniqueName": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample.csproj",
       "projectName": "250315_rider_StaticFilesExample",
-      "projectPath": "E:\\.Project\\ASP.Net\\Study\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample.csproj",
+      "projectPath": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample.csproj",
       "packagesPath": "C:\\Users\\merry_ma\\.nuget\\packages\\",
-      "outputPath": "E:\\.Project\\ASP.Net\\Study\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample\\obj\\",
+      "outputPath": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250315_rider_StaticFilesExample\\250315_rider_StaticFilesExample\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Code\\VisualStudio\\vs3\\NuGetPackages"

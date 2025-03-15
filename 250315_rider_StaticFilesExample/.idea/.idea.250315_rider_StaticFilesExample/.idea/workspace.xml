@@ -4,6 +4,9 @@
     <projectFile profileName="http">250315_rider_StaticFilesExample/250315_rider_StaticFilesExample.csproj</projectFile>
     <projectFile profileName="https">250315_rider_StaticFilesExample/250315_rider_StaticFilesExample.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="f1145ffe-8b20-4a47-afcc-83206578f912" name="更改" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,9 +14,12 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="DpaMonitoringSettings">
+    <option name="firstShow" value="false" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2uLRORh115J5v8Br7t6RZVQYNij" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -21,9 +27,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    ".NET 启动设置配置文件.250315_rider_StaticFilesExample: http.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -68,6 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1742025837348</updated>
       <workItem from="1742025837950" duration="124000" />
+      <workItem from="1742026175302" duration="1120000" />
     </task>
     <servers />
   </component>
