@@ -31,7 +31,14 @@ public class HomeController : Controller
         //重定向 - 302 Found
         // return new RedirectToActionResult("Books", "Store",new{});
         //301
-        return new RedirectToActionResult("Books", "Store", new { }, true);
+        // return new RedirectToActionResult("Books", "Store", new { }, true);
+
+
+        return RedirectPermanent("https://www.baidu.com");
+        return LocalRedirect("/store/books/" + bookId);
+        return new LocalRedirectResult($"/store/books/{bookId}");
+        return RedirectToAction("Books", "Store", new { id = bookId  });
+        return RedirectToActionPermanent("Books", "Store", new { id = bookId });
     }
     
 }
