@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("250315_rider_StaticFilesExample")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("IActionResultExample")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+850c83c07df187ab52264bf53e823a7d759508ca")]
-[assembly: System.Reflection.AssemblyProductAttribute("250315_rider_StaticFilesExample")]
-[assembly: System.Reflection.AssemblyTitleAttribute("250315_rider_StaticFilesExample")]
+[assembly: System.Reflection.AssemblyProductAttribute("IActionResultExample")]
+[assembly: System.Reflection.AssemblyTitleAttribute("IActionResultExample")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // 由 MSBuild WriteCodeFragment 类生成。

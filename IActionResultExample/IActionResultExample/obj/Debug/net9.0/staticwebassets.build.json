@@ -1,0 +1,125 @@
+{
+  "Version": 1,
+  "Hash": "uMqrHLEdWI7lD0fwBCZzqEs/Lq37sQ+mZDuVylw5XX8=",
+  "Source": "IActionResultExample",
+  "BasePath": "_content/IActionResultExample",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "IActionResultExample\\wwwroot",
+      "Source": "IActionResultExample",
+      "ContentRoot": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\IActionResultExample\\IActionResultExample\\wwwroot\\",
+      "BasePath": "_content/IActionResultExample",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\IActionResultExample\\IActionResultExample\\wwwroot\\sample.jpg",
+      "SourceId": "IActionResultExample",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\IActionResultExample\\IActionResultExample\\wwwroot\\",
+      "BasePath": "_content/IActionResultExample",
+      "RelativePath": "sample#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "b55e9rf6d9",
+      "Integrity": "j3b46wqKa+lFAgQ7HBQHyEHKlwCgR+cSLWd5N4IujIk=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\sample.jpg"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "sample.b55e9rf6d9.jpg",
+      "AssetFile": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\IActionResultExample\\IActionResultExample\\wwwroot\\sample.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "630"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"j3b46wqKa+lFAgQ7HBQHyEHKlwCgR+cSLWd5N4IujIk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 16 Mar 2025 08:51:43 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "b55e9rf6d9"
+        },
+        {
+          "Name": "label",
+          "Value": "sample.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-j3b46wqKa+lFAgQ7HBQHyEHKlwCgR+cSLWd5N4IujIk="
+        }
+      ]
+    },
+    {
+      "Route": "sample.jpg",
+      "AssetFile": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\IActionResultExample\\IActionResultExample\\wwwroot\\sample.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "630"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"j3b46wqKa+lFAgQ7HBQHyEHKlwCgR+cSLWd5N4IujIk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 16 Mar 2025 08:51:43 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-j3b46wqKa+lFAgQ7HBQHyEHKlwCgR+cSLWd5N4IujIk="
+        }
+      ]
+    }
+  ]
+}

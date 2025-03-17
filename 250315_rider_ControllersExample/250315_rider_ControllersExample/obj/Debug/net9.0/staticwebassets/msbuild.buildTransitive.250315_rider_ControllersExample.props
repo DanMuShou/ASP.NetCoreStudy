@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\250315_rider_ControllersExample.props" />
+</Project>
