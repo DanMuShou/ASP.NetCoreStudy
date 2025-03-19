@@ -18,11 +18,14 @@
     <option name="firstShow" value="false" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/a59156b1c00242bd9549c57369c41c3a30930/99/449732e2/02000039pdb5.il" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a6b7f037ba7b44df80b8d3aa7e58eeb2e8e938/1b/d33da9ec/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a994bdc4c285d75e4a359cf40686c4eb86d6dbed705fe15096c7229d1d281/ValidationAttribute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f6f937e7fde51c3ca061c59112cdd35b76a72e9ef8821ac361c6ef71e90ea88/ControllerEndpointRouteBuilderExtensions.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2uWm3Ju5YLJO4ngLSzP3KxuLnEy" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -30,7 +33,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET 启动设置配置文件.ModelValidationsExample: http.executor": "Run",
+    ".NET 启动设置配置文件.ModelValidationsExample: http.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "rider.code.cleanup.on.save": "true",
     "rider.code.cleanup.on.save.profile": "Built-in: Reformat Code",
@@ -78,10 +81,35 @@
       <option name="presentableId" value="Default" />
       <updated>1742372503503</updated>
       <workItem from="1742372504622" duration="4631000" />
+      <workItem from="1742380836802" duration="5051000" />
     </task>
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ModelValidationsExample/Validators/DateRangeValidatorAttribute.cs</url>
+          <line>18</line>
+          <properties documentPath="E:\.Project\GitUp\ASP.NetCoreStudy\ModelValidationsExample\ModelValidationsExample\Validators\DateRangeValidatorAttribute.cs" containingFunctionPresentation="方法 'IsValid'">
+            <startOffsets>
+              <option value="509" />
+            </startOffsets>
+            <endOffsets>
+              <option value="510" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Type#System.ComponentModel.DataAnnotations.ValidationContext" memberName="ObjectInstance" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
