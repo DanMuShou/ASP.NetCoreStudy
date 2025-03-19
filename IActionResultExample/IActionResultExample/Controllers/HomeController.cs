@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IActionResultExample.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IActionResultExample.Controllers;
 
@@ -47,5 +48,19 @@ public class HomeController : Controller
         // return RedirectToAction("Books", "Store", new { id = bookId  });
         return RedirectToActionPermanent("Books", "Store", new { id = bookId });
     }
-    
+
+    [Route("register")]
+    public IActionResult Register(Person person)
+    {
+        if (ModelState.IsValid == false)
+        {
+            var errors = string.Join("\n", 
+                ModelState.Values.
+                    SelectMany(value => value.Errors).
+                    Select(err => err.ErrorMessage));
+            return BadRequest($"person not invalid\n {errors}");
+        }
+        
+        return Content($"{person}");
+    }
 }
