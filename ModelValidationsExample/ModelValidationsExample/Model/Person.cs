@@ -4,7 +4,7 @@ using ModelValidationsExample.Validators;
 
 namespace ModelValidationsExample.Model;
 
-public class Person
+public class Person : IValidatableObject
 {
     [Display(Name = "Person Name")]
     [Required(ErrorMessage = "MyError - {0} is required.")]
@@ -39,6 +39,8 @@ public class Person
     [DateRangeValidator("FromDate", ErrorMessage = "From Date should be older than or equal to 'To date'")]
     public DateTime? ToDate { get; set; }
 
+    public int? Age { get; set; }
+
     public override string ToString()
     {
         return $"Person Name: {PersonName}\n" +
@@ -48,5 +50,15 @@ public class Person
                $"Phone: {Phone}\n" +
                $"Price: {Price:F2}\n" +
                $"DateOfBrith: {DateOfBrith:d}\n";
+    }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!DateOfBrith.HasValue && !Age.HasValue)
+        {
+            //yield 允许返回多个值
+            yield return new ValidationResult(
+                "Either of Date of Birth or Age must be supply", [nameof(Age)]);
+        }
     }
 }
