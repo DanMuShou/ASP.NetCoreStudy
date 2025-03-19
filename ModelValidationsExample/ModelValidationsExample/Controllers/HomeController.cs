@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ModelValidationsExample.Model;
+using ModelValidationsExample.Custom;
 
 namespace ModelValidationsExample.Controllers;
 
@@ -8,7 +8,7 @@ namespace ModelValidationsExample.Controllers;
 public class HomeController : Controller
 {
     [Route("register")]
-    public IActionResult Home(Person person)
+    public IActionResult Home([FromBody] [ModelBinder(BinderType = typeof(PersonModelBinder))] Person person)
     {
         if (!ModelState.IsValid)
         {
@@ -22,14 +22,12 @@ public class HomeController : Controller
             // }
             // var errors = string.Join("\n", errorList);
 
-          var errors =  string.Join("\n", 
-              ModelState.Values.
-                  SelectMany(values => values.Errors).
-                  Select(error => error.ErrorMessage));
-            
+            var errors = string.Join("\n",
+                ModelState.Values.SelectMany(values => values.Errors).Select(error => error.ErrorMessage));
+
             return BadRequest("The person required information is not filled\n" + errors);
         }
-        
+
         return Content($"{person}");
     }
 }

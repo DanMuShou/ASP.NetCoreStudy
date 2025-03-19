@@ -21,8 +21,10 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/a59156b1c00242bd9549c57369c41c3a30930/99/449732e2/02000039pdb5.il" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/994fdd6dedb742b18c4a2eb929236f7519938/8f/6cb99f17/ValidatableObjectAdapter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a6b7f037ba7b44df80b8d3aa7e58eeb2e8e938/1b/d33da9ec/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dffdaf205cf54e098aa7d66ba76b38621de920/99/f23c111b/DefaultModelBindingContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dffdaf205cf54e098aa7d66ba76b38621de920/d8/beb01d84/ValidationVisitor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a994bdc4c285d75e4a359cf40686c4eb86d6dbed705fe15096c7229d1d281/ValidationAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ec2fc0611e806410198492b1ece33547125e698df68e5779b423dfff98423842/BinderTypeModelBinder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f6f937e7fde51c3ca061c59112cdd35b76a72e9ef8821ac361c6ef71e90ea88/ControllerEndpointRouteBuilderExtensions.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
@@ -35,7 +37,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET 启动设置配置文件.ModelValidationsExample: http.executor": "Debug",
+    ".NET 启动设置配置文件.ModelValidationsExample: http.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "rider.code.cleanup.on.save": "true",
     "rider.code.cleanup.on.save.profile": "Built-in: Reformat Code",
@@ -84,6 +86,7 @@
       <updated>1742372503503</updated>
       <workItem from="1742372504622" duration="4631000" />
       <workItem from="1742380836802" duration="5938000" />
+      <workItem from="1742393229272" duration="2844000" />
     </task>
     <servers />
   </component>
@@ -91,6 +94,36 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ModelValidationsExample/Custom/PersonModelBinder.cs</url>
+          <line>8</line>
+          <properties documentPath="E:\.Project\GitUp\ASP.NetCoreStudy\ModelValidationsExample\ModelValidationsExample\Custom\PersonModelBinder.cs" containingFunctionPresentation="方法 'BindModelAsync'">
+            <startOffsets>
+              <option value="245" />
+            </startOffsets>
+            <endOffsets>
+              <option value="246" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ModelValidationsExample/Controllers/HomeController.cs</url>
+          <line>11</line>
+          <properties documentPath="E:\.Project\GitUp\ASP.NetCoreStudy\ModelValidationsExample\ModelValidationsExample\Controllers\HomeController.cs" containingFunctionPresentation="方法 'Home'">
+            <startOffsets>
+              <option value="350" />
+            </startOffsets>
+            <endOffsets>
+              <option value="351" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#System.ComponentModel.DataAnnotations.ValidationContext" memberName="ObjectInstance" />
