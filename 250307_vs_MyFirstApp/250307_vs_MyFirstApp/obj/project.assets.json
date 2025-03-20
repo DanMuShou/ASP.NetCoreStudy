@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\.Project\\ASP.Net\\Study\\250307_vs_MyFirstApp\\250307_vs_MyFirstApp\\250307_vs_MyFirstApp.csproj",
+      "projectUniqueName": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250307_vs_MyFirstApp\\250307_vs_MyFirstApp\\250307_vs_MyFirstApp.csproj",
       "projectName": "250307_vs_MyFirstApp",
-      "projectPath": "E:\\.Project\\ASP.Net\\Study\\250307_vs_MyFirstApp\\250307_vs_MyFirstApp\\250307_vs_MyFirstApp.csproj",
+      "projectPath": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250307_vs_MyFirstApp\\250307_vs_MyFirstApp\\250307_vs_MyFirstApp.csproj",
       "packagesPath": "C:\\Users\\merry_ma\\.nuget\\packages\\",
-      "outputPath": "E:\\.Project\\ASP.Net\\Study\\250307_vs_MyFirstApp\\250307_vs_MyFirstApp\\obj\\",
+      "outputPath": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250307_vs_MyFirstApp\\250307_vs_MyFirstApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Code\\VisualStudio\\vs3\\NuGetPackages"
