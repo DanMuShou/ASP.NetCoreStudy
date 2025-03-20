@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ModelValidationsExample")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4eb0c342b7b6fb2bc4a5fb4d88134f01f9347c60")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+377ba3d7c56e317d11b1e3182a56b165c398794a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ModelValidationsExample")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ModelValidationsExample")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

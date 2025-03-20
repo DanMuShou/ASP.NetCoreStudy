@@ -8,7 +8,7 @@ namespace ModelValidationsExample.Controllers;
 public class HomeController : Controller
 {
     [Route("register")]
-    public IActionResult Home(Person person)
+    public IActionResult Home(Person person, [FromHeader(Name = "User-Agent")] string userAgent)
     {
         if (!ModelState.IsValid)
         {
@@ -28,6 +28,8 @@ public class HomeController : Controller
             return BadRequest("The person required information is not filled\n" + errors);
         }
 
-        return Content($"{person}");
+        // ControllerContext.HttpContext.Request.Headers[]
+
+        return Content($"{person}{userAgent}\n");
     }
 }
