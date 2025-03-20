@@ -8,7 +8,7 @@ namespace ModelValidationsExample.Controllers;
 public class HomeController : Controller
 {
     [Route("register")]
-    public IActionResult Home([FromBody] [ModelBinder(BinderType = typeof(PersonModelBinder))] Person person)
+    public IActionResult Home(Person person)
     {
         if (!ModelState.IsValid)
         {

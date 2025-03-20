@@ -42,6 +42,8 @@ public class Person : IValidatableObject
 
     public int? Age { get; set; }
 
+    public List<string?> Tags { get; set; } = [];
+
     public override string ToString()
     {
         return $"Person Name: {PersonName}\n" +
