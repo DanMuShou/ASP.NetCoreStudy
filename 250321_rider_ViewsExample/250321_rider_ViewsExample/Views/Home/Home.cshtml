@@ -1,4 +1,6 @@
-﻿@using _250321_rider_ViewsExample.Models
+﻿@model IEnumerable<Person>
+@using _250321_rider_ViewsExample.Models
+
 @{
     //嵌入到html的代码块
     @* var appTitle = "Asp.Net Core Demo App"; *@
@@ -29,7 +31,7 @@
 
 <head>
     <!-- <title>Asp.Net Core Welcome</title> 定义文档的标题 -->
-    <title>@ViewData["appTitle"]</title>
+    <title>@ViewBag.appTitle</title>
     <!-- 定义HTML文档的元信息 -->
     <meta charset="utf-8" />
 </head>
@@ -37,69 +39,25 @@
 
 <body>
     <h1>Welcome to Asp.Net Core! - </h1>
-    @* <h2>Hello @person.Name!</h2> *@
-    @* @if (person.DateOfBirth.HasValue) *@
-    @* { *@
-    @*     var age = Math.Round((DateTime.Now - person.DateOfBirth).Value.TotalDays / 365.25); *@
-    @*     <h3>@age years old</h3> *@
-    @* } *@
-    @* else *@
-    @* { *@
-    @*     <h3>No DateOfBirth</h3> *@
-    @* } *@
-    @* *@
-    @* @switch (person.PersonGender) *@
-    @* { *@
-    @*     case Gender.Male: *@
-    @*         <!-- 自定义段落 --> *@
-    @*         <p>你是男的</p> *@
-    @*         break; *@
-    @*     case Gender.Female: *@
-    @*         <p>你是女的</p> *@
-    @*         break; *@
-    @*     case Gender.Other: *@
-    @*         <p>你是Other的</p> *@
-    @*         break; *@
-    @* } *@
-    @* @foreach (var item in persons) *@
-    @* { *@
-    @*     //定义文档中的节 *@
-    @*     <div> *@
-    @*         @item.Name *@
-    @*         //定义文档中的节 *@
-    @*         <span>,</span> *@
-    @*         <span>@item.PersonGender</span> *@
-    @*         @if (item.DateOfBirth.HasValue) *@
-    @*         { *@
-    @*             <span>,</span> *@
-    @*             <span>@item.DateOfBirth.Value.ToString("yyyy-MM-dd")</span> *@
-    @*         } *@
-    @*     </div> *@
-    @* } *@
-
     @{
-        var persons = (List<Person>?)ViewData["persons"];
-        @if (persons != null)
+        @foreach (var item in Model)
         {
-            @foreach (var item in persons)
-            {
-                <span>Hello to</span>
-                @:HELLO TO
-                <text>Hello to</text>
-                //定义文档中的节
-                <div>
-                    @item.Name
-                    @* 定义文档中的节 *@
+            <span>Hello to</span>
+            @:HELLO TO
+            <text>Hello to</text>
+            //定义文档中的节
+            <div>
+                @item.Name
+                @* 定义文档中的节 *@
+                <span>,</span>
+                <span>@item.PersonGender</span>
+                @if (item.DateOfBirth != null)
+                {
                     <span>,</span>
-                    <span>@item.PersonGender</span>
-                    @if (item.DateOfBirth.HasValue)
-                    {
-                        <span>,</span>
-                        @* <span>@item.DateOfBirth.Value.ToString("yyyy-MM-dd")</span> *@
-                        <span>@GetAge(item.DateOfBirth) years old</span>
-                    }
-                </div>
-            }
+                    <span>@GetAge(item.DateOfBirth) years old</span>
+                }
+                <a href="/personDetails/@item.Name">person Info</a>
+            </div>
         }
     }
 

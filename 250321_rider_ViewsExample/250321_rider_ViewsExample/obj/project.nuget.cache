@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+7OrKeGm22E=",
+  "dgSpecHash": "21HoYmUkIho=",
   "success": true,
-  "projectFilePath": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\250321_rider_ViewsExample.csproj",
+  "projectFilePath": "e:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\250321_rider_ViewsExample.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\merry_ma\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\merry_ma\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\250321_rider_ViewsExample.csproj": {}
+    "e:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\250321_rider_ViewsExample.csproj": {}
   },
   "projects": {
-    "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\250321_rider_ViewsExample.csproj": {
+    "e:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\250321_rider_ViewsExample.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\250321_rider_ViewsExample.csproj",
+        "projectUniqueName": "e:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\250321_rider_ViewsExample.csproj",
         "projectName": "250321_rider_ViewsExample",
-        "projectPath": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\250321_rider_ViewsExample.csproj",
+        "projectPath": "e:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\250321_rider_ViewsExample.csproj",
         "packagesPath": "C:\\Users\\merry_ma\\.nuget\\packages\\",
-        "outputPath": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\obj\\",
+        "outputPath": "e:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Code\\VisualStudio\\vs3\\NuGetPackages"
