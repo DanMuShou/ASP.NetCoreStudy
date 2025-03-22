@@ -35,3 +35,11 @@ build_metadata.AdditionalFiles.CssScope =
 [E:/.Project/GitUp/ASP.NetCoreStudy/250321_rider_ViewsExample/250321_rider_ViewsExample/Views/Home/PersonDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQZXJzb25EZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
+
+[E:/.Project/GitUp/ASP.NetCoreStudy/250321_rider_ViewsExample/250321_rider_ViewsExample/Views/Home/PersonWithProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQZXJzb25XaXRoUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/.Project/GitUp/ASP.NetCoreStudy/250321_rider_ViewsExample/250321_rider_ViewsExample/Views/Home/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfVmlld0ltcG9ydHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

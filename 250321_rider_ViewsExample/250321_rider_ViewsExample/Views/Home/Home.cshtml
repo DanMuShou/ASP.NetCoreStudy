@@ -1,5 +1,5 @@
-﻿@model IEnumerable<Person>
-@using _250321_rider_ViewsExample.Models
+﻿@using _250321_rider_ViewsExample.Models
+@model IEnumerable<Person>
 
 @{
     //嵌入到html的代码块
@@ -56,7 +56,12 @@
                     <span>,</span>
                     <span>@GetAge(item.DateOfBirth) years old</span>
                 }
-                <a href="/personDetails/@item.Name">person Info</a>
+                <div>
+                    <a href="/personDetails/@item.Name">person Info</a>
+                </div>
+                <div>
+                    <a href="/personWithProduct">personWithProduct</a>
+                </div>
             </div>
         }
     }

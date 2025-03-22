@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "mukeFzqM1UsR6j3A6sp862ynIn3NUYliBOFWYyQfAR8=",
+  "Hash": "yEyM1pzM/g5ZBjz2+O4qi88BHCtP5uqZ2zyn+uISRPo=",
   "Source": "250321_rider_ViewsExample",
   "BasePath": "_content/250321_rider_ViewsExample",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "250321_rider_ViewsExample\\wwwroot",
       "Source": "250321_rider_ViewsExample",
-      "ContentRoot": "e:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\wwwroot\\",
+      "ContentRoot": "E:\\.Project\\GitUp\\ASP.NetCoreStudy\\250321_rider_ViewsExample\\250321_rider_ViewsExample\\wwwroot\\",
       "BasePath": "_content/250321_rider_ViewsExample",
       "Pattern": "**"
     }

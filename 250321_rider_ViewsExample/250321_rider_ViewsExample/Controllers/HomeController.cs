@@ -75,4 +75,22 @@ public class HomeController : Controller
 
         return View("PersonDetails", targetPerson);
     }
+
+    [Route("personWithProduct")]
+    public IActionResult PersonWithProduct()
+    {
+        var person = new Person()
+        {
+            Name = "Rider",
+            PersonGender = Gender.Female,
+            DateOfBirth = Convert.ToDateTime("2000-1-1"),
+        };
+        var product = new Product() { ProductId = 1, ProductName = "RiderProduct" };
+        var personAndProductWrapperModel = new PersonAndProductWrapperModel()
+        {
+            Person = person,
+            Product = product,
+        };
+        return View(personAndProductWrapperModel);
+    }
 }
