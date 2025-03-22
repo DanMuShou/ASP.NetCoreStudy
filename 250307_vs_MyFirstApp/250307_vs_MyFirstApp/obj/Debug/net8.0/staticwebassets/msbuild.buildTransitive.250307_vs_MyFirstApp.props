@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\250307_vs_MyFirstApp.props" />
-</Project>

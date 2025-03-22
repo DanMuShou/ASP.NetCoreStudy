@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\250307_vs_MyFirstApp.props" />
-</Project>

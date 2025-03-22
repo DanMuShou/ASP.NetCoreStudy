@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\250321_rider_ViewsExample.props" />
-</Project>

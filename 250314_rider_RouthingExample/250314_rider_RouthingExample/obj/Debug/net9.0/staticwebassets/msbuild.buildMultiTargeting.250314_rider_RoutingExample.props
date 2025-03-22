@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\250314_rider_RoutingExample.props" />
-</Project>

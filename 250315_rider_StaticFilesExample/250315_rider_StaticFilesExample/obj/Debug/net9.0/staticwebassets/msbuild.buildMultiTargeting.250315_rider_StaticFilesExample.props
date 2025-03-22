@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\250315_rider_StaticFilesExample.props" />
-</Project>
