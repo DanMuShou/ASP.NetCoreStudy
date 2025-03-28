@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>_250328_rider_StocksApp</RootNamespace>
+      <UserSecretsId>8a1c0b7a-f8de-4f5f-bfbd-d621a04b2cfa</UserSecretsId>
+  </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Update="TradingOption.cs">
+        <DependentUpon>Options</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>

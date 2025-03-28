@@ -1,0 +1,62 @@
+﻿@model _250328_rider_StocksApp.Models.StockModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<div>
+    <div class="box trading-panel">
+        <div class="flex trading-panel-flex">
+            <div id="stock-price-panel">
+                <div class="stock">
+                    <h1 class="stock-title">@Model.StockSymbol</h1>
+
+                    @* span - 着色 *@
+                    @* td - 单元格 *@
+                    @* th - 单元格列标头会加粗 *@
+
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>当前 :</td>
+                            <th>
+                                <small>$</small>
+                                <span class="price">@Model.CurrentPrice</span>
+                            </th>
+                        </tr>
+
+                        <tr>
+                            <td>最高 :</td>
+                            <th>
+                                <small>$</small>
+                                <span class="price">@Model.HighestPrice</span>
+                            </th>
+                        </tr>
+                        
+                        <tr>
+                            <td>最低 :</td>
+                            <th>
+                                <small>$</small>
+                                <span class="price">@Model.LowestPrice</span>
+                            </th>
+                        </tr>
+                        
+                        <tr>
+                            <td>开始 :</td>
+                            <th>
+                                <small>$</small>
+                                <span class="price">@Model.OpenPrice</span>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
