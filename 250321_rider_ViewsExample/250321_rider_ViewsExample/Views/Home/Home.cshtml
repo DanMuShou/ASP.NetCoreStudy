@@ -1,0 +1,72 @@
+﻿@using _250321_rider_ViewsExample.Models
+@model IEnumerable<Person>
+
+@{
+    //嵌入到html的代码块
+    @* var appTitle = "Asp.Net Core Demo App"; *@
+    // var person = new Person()
+    // {
+    // Name = "Rider",
+    // DateOfBirth = Convert.ToDateTime("1980-01-01"),
+    // PersonGender = Gender.Female,
+    // };
+}
+
+@* functions 可以定义为本地类 而不是局部函数 *@
+
+@{
+    //本地方法
+    double? GetAge(DateTime? dateOfBrith)
+    {
+        if (!dateOfBrith.HasValue) return null;
+        return System.Math.Round((DateTime.Now - dateOfBrith.Value).TotalDays / 365.25);
+    }
+}
+
+<!-- 定义文档类型 -->
+<!DOCTYPE html>
+<!-- 定义HTML文档 -->
+<html>
+<!-- 定义关于文档的信息 -->
+
+<head>
+    <!-- <title>Asp.Net Core Welcome</title> 定义文档的标题 -->
+    <title>@ViewBag.appTitle</title>
+    <!-- 定义HTML文档的元信息 -->
+    <meta charset="utf-8" />
+</head>
+<!-- 定义文档的主体 -->
+
+<body>
+    <h1>Welcome to Asp.Net Core! - </h1>
+    @{
+        @foreach (var item in Model)
+        {
+            <span>Hello to</span>
+            @:HELLO TO
+            <text>Hello to</text>
+            //定义文档中的节
+            <div>
+                @item.Name
+                @* 定义文档中的节 *@
+                <span>,</span>
+                <span>@item.PersonGender</span>
+                @if (item.DateOfBirth != null)
+                {
+                    <span>,</span>
+                    <span>@GetAge(item.DateOfBirth) years old</span>
+                }
+                <div>
+                    <a href="/personDetails/@item.Name">person Info</a>
+                </div>
+                <div>
+                    <a href="/personWithProduct">personWithProduct</a>
+                </div>
+            </div>
+        }
+    }
+
+    <br>欢迎来到Asp.Net Core!
+</body>
+
+</html>

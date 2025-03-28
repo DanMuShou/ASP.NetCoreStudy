@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "主页";
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+</head>
+
+<body>
+    <div>
+        <h1>@ViewBag.Title</h1>
+        <div class="box">当前环境模式 : @ViewBag.CurrentEnv</div>
+    </div>
+
+<environment include="Development">
+    <button class="button button-blue-back">开发者按钮</button>
+</environment>
+
+    <environment exclude="Development">
+        <button class="button button-green-back">除了开发者模式显示按钮1</button>
+    </environment>
+
+</body>
+
+</html>

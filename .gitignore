@@ -1,0 +1,82 @@
+# ASP.NET Core 默认忽略项
+**/[Bb]in/
+**/[Oo]bj/
+**/[Ll]og/
+**/[Ll]ogs/
+**/*.user
+**/*.suo
+**/*.userprefs
+**/*.cache
+**/*.vspscc
+**/*.vssscc
+**/.vs/
+**/TestResults/
+**/publish/
+**/appsettings.Development.json  # 避免提交开发环境配置
+**/launchSettings.json           # 避免提交调试配置（可选）
+
+# NuGet 包和缓存
+**/[Nn]uget.exe
+**/.nuget/
+**/packages/  # 本地包目录（如果需要恢复包，应排除）
+**/*.nupkg
+
+# .NET Core 和本地开发证书
+**/local.settings.json  # Azure Functions 本地配置（如果适用）
+**/.env                  # 本地环境变量（通用）
+**/.dotnet/
+**/.dotnet/**
+
+# Visual Studio 特定文件
+**/.vs/
+**/*.csproj.user
+**/*.sln.docstates
+**/*.vcxproj.filters
+**/*.vcxproj.user
+**/*.db
+**/*.jfm
+**/_ReSharper.*
+**/Backup*/
+**/UpgradeLog*.XML
+**/UpgradeLog*.htm
+**/ServiceFabricBackup/
+**/*.psess
+**/*.vsp
+**/*.sap
+
+# JetBrains Rider 特定文件
+**/.idea/
+**/*.idea/
+**/*.sln.iml
+**/*.DotSettings
+**/*.DotSettings.user
+**/dynamicplugins/
+**/resharper*
+
+# Visual Studio Code 特定文件
+**/.vscode/
+**/.vscode/*
+!**/.vscode/settings.json  # 如果需保留共享的 settings.json，注释此行
+**/.history/
+**/*.code-workspace
+
+# 用户特定文件（通用）
+**/.DS_Store
+**/Thumbs.db
+**/Desktop.ini
+**/*.log
+**/*.tmp
+**/*~  # 临时文件
+
+# 测试覆盖率结果
+**/coverage*.xml
+**/coverage.json
+**/lcov.info
+**/coverage/
+
+# 其他通用忽略项
+**/node_modules/  # 如果有前端项目（如 Angular/React）
+**/bower_components/
+**/dist/
+**/out/
+**/wwwroot/lib/  # 前端包目录（建议通过 LibMan 或 npm 恢复）

@@ -1,0 +1,33 @@
+﻿@{
+    var listModel = new ListModel()
+    {
+        ListTitle = "Countries",
+        ListItems = ["China", "Japan", "Korea", "USA", "UK", "France", "Germany", "Italy"],
+    };
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+    <div>
+        <h1>主页</h1>
+    </div>
+
+<div class="box programming-languages-content">
+    
+</div>
+
+    <button class="button" type="button" id="buttonLoad">Load Programming Languages</button>
+<script>document.querySelector('#buttonLoad').addEventListener('click', async function () {
+            var response = await fetch("programming-languages");
+            var languages = await response.body()
+            document.querySelector('.programming-languages-content').innerHTML = languages;
+        })</script>
+
+</body>
+
+<div>@ViewBag.ListTitle</div>
+
+</html>

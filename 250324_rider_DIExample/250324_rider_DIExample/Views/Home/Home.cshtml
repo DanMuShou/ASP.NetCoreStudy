@@ -1,0 +1,47 @@
+﻿@model IEnumerable<string>
+@inject ICitiesService CitiesServiceInView
+
+@{
+    ViewBag.Title = "主页";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    <h3>Cities</h3>
+    
+    @{
+        var citiesFromService = CitiesServiceInView.GetCities();
+    }
+    
+    <ul class="list">
+        @foreach (var item in citiesFromService)
+        {
+            <li>@item</li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h3>创建GUID</h3>
+    <ul>
+        <li>@ViewBag.InstanceId1</li>
+        <li>@ViewBag.InstanceId2</li>
+        <li>@ViewBag.InstanceId3</li>
+        <li>@CitiesServiceInView.ServiceInstanceId</li>
+    </ul>
+</div>
+
+<div class="box">
+    @* @ViewBag.InstanceId_CitiesServicece_InScope1 *@
+    <p> @ViewBag.InstanceId_CitiesServicece_InScope2;</p>
+</div>
+
+
+</body>
+</html>

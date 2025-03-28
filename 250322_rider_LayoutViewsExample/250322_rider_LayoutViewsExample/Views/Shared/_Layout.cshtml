@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "_MasterLayout";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>@ViewData["Title"]</title>
+    @* 
+        link href - 被连接资源/文档的URL 可为绝对或网站内文件
+        rel - 当前文档与被连接文档之间的关系
+    *@
+    <link href="~/StyleSheet.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="navbar">
+            <div class="navbar-brand"> AspNet Core App </div>
+            @* 
+                ul - 无序列表
+                li - 列表项
+            *@
+            <ul>
+                <li><a href="/home">主页</a></li>
+                <li><a href="/aboutCompany">关于</a></li>
+                <li><a href="/contactSupport">联系支持</a></li>
+                <li><a href="/products">所有产品</a></li>
+                <li><a href="/products/search">查询产品</a></li>
+                <li><a href="/products/order">排序产品</a></li>
+            </ul>
+        </div>
+
+        <div class="page-content">
+            @* 
+                RenderBody() - _Layout.cshtml布局页面的视图时，视图的内容会和布局页面合并
+            *@
+            @RenderBody()
+        </div>
+
+        <div class="footer-content">
+            @RenderSection("footerSection", false)
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

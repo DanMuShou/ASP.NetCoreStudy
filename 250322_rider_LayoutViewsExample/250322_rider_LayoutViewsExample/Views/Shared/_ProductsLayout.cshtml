@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "_MasterLayout";
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="/StyleSheet.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="flex full-size-height">
+        <div class="flex-1 grey-back">Sidebar</div>
+        <div class="flex-3 white-back">@RenderBody()</div>
+    </div>
+</body>
+
+</html>

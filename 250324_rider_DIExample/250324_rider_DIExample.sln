@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "250324_rider_DIExample", "250324_rider_DIExample\250324_rider_DIExample.csproj", "{12694BF7-0F58-4D93-9BBB-3C4D0468BD2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{1A8AC292-90D1-493C-9EAD-43BFBDA5922A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceContracts", "ServiceContracts\ServiceContracts.csproj", "{5E6C6CCB-98FB-4FEB-9637-E0FB1DC9F330}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12694BF7-0F58-4D93-9BBB-3C4D0468BD2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12694BF7-0F58-4D93-9BBB-3C4D0468BD2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12694BF7-0F58-4D93-9BBB-3C4D0468BD2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12694BF7-0F58-4D93-9BBB-3C4D0468BD2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A8AC292-90D1-493C-9EAD-43BFBDA5922A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A8AC292-90D1-493C-9EAD-43BFBDA5922A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A8AC292-90D1-493C-9EAD-43BFBDA5922A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A8AC292-90D1-493C-9EAD-43BFBDA5922A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E6C6CCB-98FB-4FEB-9637-E0FB1DC9F330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E6C6CCB-98FB-4FEB-9637-E0FB1DC9F330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E6C6CCB-98FB-4FEB-9637-E0FB1DC9F330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E6C6CCB-98FB-4FEB-9637-E0FB1DC9F330}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

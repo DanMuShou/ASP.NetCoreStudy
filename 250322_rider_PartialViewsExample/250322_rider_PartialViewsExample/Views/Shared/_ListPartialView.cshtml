@@ -1,0 +1,20 @@
+﻿@model ListModel;
+
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div>
+        <div class="modern-list">
+            <h3>@Model.ListTitle</h3>
+            <ul>
+                @foreach (var item in Model.ListItems)
+                {
+                    <li>@item</li>
+                }
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
