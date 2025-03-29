@@ -80,3 +80,22 @@
 **/dist/
 **/out/
 **/wwwroot/lib/  # 前端包目录（建议通过 LibMan 或 npm 恢复）
+
+# 通用忽略
+**/[Bb]in/
+**/[Oo]bj/
+**/.vs/
+**/.idea/
+**/.vscode/
+
+# 测试覆盖率报告
+**/coverage/
+**/*.coverage
+**/*.cobertura.xml
+
+# 测试结果和日志
+**/TestResults/
+**/*.trx
+**/*.testlog
+**/xunit-*.xml
+**/nunit-*.xml
