@@ -45,4 +45,18 @@ public interface IPersonsService
         string sortBy,
         SortOrderOptions sort
     );
+
+    /// <summary>
+    /// 更新person获得person响应
+    /// </summary>
+    /// <param name="personUpdateRequest">需要更新的person</param>
+    /// <returns>更新完成后响应</returns>
+    PersonResponse UpdatePerson(PersonUpdateRequest? personUpdateRequest);
+
+    /// <summary>
+    /// 依据person guid 删除person
+    /// </summary>
+    /// <param name="personId">person的唯一标识符</param>
+    /// <returns>是否删除成功</returns>
+    bool DeletePerson(Guid? personId);
 }

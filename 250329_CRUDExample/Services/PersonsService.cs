@@ -189,4 +189,39 @@ public class PersonsService : IPersonsService
 
         return sortedPersons;
     }
+
+    public PersonResponse UpdatePerson(PersonUpdateRequest? personUpdateRequest)
+    {
+        ArgumentNullException.ThrowIfNull(personUpdateRequest);
+
+        //model validation
+        ValidationHelper.ModelValidation(personUpdateRequest);
+        //update person
+        var targetPerson = _persons.FirstOrDefault(temp => temp.PersonId == personUpdateRequest.PersonId);
+        if (targetPerson == null)
+            throw new ArgumentException("给出的Person无法找到");
+
+        targetPerson.PersonName = personUpdateRequest.PersonName;
+        targetPerson.Email = personUpdateRequest.Email;
+        targetPerson.DateOfBirth = personUpdateRequest.DateOfBirth;
+        targetPerson.Gender = personUpdateRequest.Gender.ToString();
+        targetPerson.CountryId = personUpdateRequest.CountryId;
+        targetPerson.Address = personUpdateRequest.Address;
+        targetPerson.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
+
+        return ConvertPersonToPersonResponse(targetPerson);
+    }
+
+    public bool DeletePerson(Guid? personId)
+    {
+        ArgumentNullException.ThrowIfNull(personId);
+        var targetPerson = _persons.FirstOrDefault(temp => temp.PersonId == personId);
+
+        if (targetPerson == null)
+            return false;
+
+        //删除所有该person id的记录
+        _persons.RemoveAll(temp => temp.PersonId == personId);
+        return true;
+    }
 }

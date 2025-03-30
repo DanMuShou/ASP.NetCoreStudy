@@ -1,4 +1,5 @@
 ﻿using Entities;
+using ServiceContracts.DTO.Enums;
 
 namespace ServiceContracts.DTO;
 
@@ -81,6 +82,22 @@ public static class PersonResponseExtensions
                 (person.DateOfBirth == null)
                     ? null
                     : Math.Round((DateTime.Now - person.DateOfBirth).Value.TotalDays / 365.25),
+        };
+    }
+
+    public static PersonUpdateRequest ToPersonUpdateRequest(this PersonResponse personResponse)
+    {
+        return new PersonUpdateRequest
+        {
+            PersonId = personResponse.PersonId,
+            PersonName = personResponse.PersonName,
+            Email = personResponse.Email,
+            DateOfBirth = personResponse.DateOfBirth,
+            Gender = (GenderOptions)
+                Enum.Parse(typeof(GenderOptions), personResponse.Gender ?? string.Empty, true),
+            CountryId = personResponse.CountryId,
+            Address = personResponse.Address,
+            ReceiveNewsLetters = personResponse.ReceiveNewsLetters,
         };
     }
 }

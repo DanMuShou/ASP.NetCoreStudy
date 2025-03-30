@@ -485,4 +485,136 @@ public class PersonsServiceTest
     }
 
     #endregion
+
+    #region UpdatePerson
+
+    //null personUpdateRequest -> throw ArgumentNullException
+    [Fact]
+    public void UpdatePerson_PersonUpdateRequestIsNull()
+    {
+        PersonUpdateRequest? personUpdateRequest = null;
+
+        Assert.Throws<ArgumentNullException>(
+            () => _personsService.UpdatePerson(personUpdateRequest)
+        );
+    }
+
+    //invalid personUpdateRequest.PersonId -> throw ArgumentException
+    [Fact]
+    public void UpdatePerson_PersonUpdateRequest_PersonIdNull()
+    {
+        var personUpdateRequest = new PersonUpdateRequest() { PersonId = Guid.NewGuid() };
+
+        Assert.Throws<ArgumentException>(() => _personsService.UpdatePerson(personUpdateRequest));
+    }
+
+    //null personUpdateRequest.PersonName -> throw ArgumentException
+    [Fact]
+    public void UpdatePerson_PersonUpdateRequest_PersonName()
+    {
+        var countryAddRequest = new CountryAddRequest() { CountryName = "China" };
+        var countryResponse = _countriesService.AddCountry(countryAddRequest);
+        var personAddRequest = new PersonAddRequest()
+        {
+            PersonName = "test1",
+            Email = "test1@gmail.com",
+            DateOfBirth = new DateTime(2000, 1, 1),
+            Gender = GenderOptions.Male,
+            CountryId = countryResponse.CountryId,
+            Address = "China",
+            ReceiveNewsLetters = false,
+        };
+        var personResponse = _personsService.AddPerson(personAddRequest);
+        var personUpdateRequest = personResponse.ToPersonUpdateRequest();
+
+        personUpdateRequest.PersonName = null;
+
+        Assert.Throws<ArgumentException>(() => _personsService.UpdatePerson(personUpdateRequest));
+    }
+
+    //add right person - change person name and person email --> update person response
+    [Fact]
+    public void UpdatePerson_PersonUpdateRequest_PersonName_PersonEmail()
+    {
+        var countryAddRequest = new CountryAddRequest() { CountryName = "China" };
+        var countryResponse = _countriesService.AddCountry(countryAddRequest);
+        var personAddRequest = new PersonAddRequest()
+        {
+            PersonName = "test1",
+            Email = "test1@gmail.com",
+            DateOfBirth = new DateTime(2000, 1, 1),
+            Gender = GenderOptions.Male,
+            CountryId = countryResponse.CountryId,
+            Address = "China",
+            ReceiveNewsLetters = false,
+        };
+        var personResponse = _personsService.AddPerson(personAddRequest);
+
+        var personUpdateRequest = personResponse.ToPersonUpdateRequest();
+        personUpdateRequest.PersonName = "changed text1";
+        personUpdateRequest.Email = "changed_test1@gmail.com";
+
+        var updatedPersonResponse = _personsService.UpdatePerson(personUpdateRequest);
+
+        var inquirePersonResponse = _personsService.GetPersonByPersonID(personResponse.PersonId);
+
+        Assert.Equal(updatedPersonResponse, inquirePersonResponse);
+        Assert.Equal(updatedPersonResponse.PersonId, inquirePersonResponse?.PersonId);
+        Assert.Equal(updatedPersonResponse.PersonName, inquirePersonResponse?.PersonName);
+        Assert.Equal(updatedPersonResponse.Email, inquirePersonResponse?.Email);
+    }
+    #endregion
+
+    #region DeletePerson
+
+    //invalid personId --> return false
+    [Fact]
+    public void DeletePerson_InvalidPersonId()
+    {
+        var countryAddRequest = new CountryAddRequest() { CountryName = "China" };
+        var countryResponse = _countriesService.AddCountry(countryAddRequest);
+        var personAddRequest = new PersonAddRequest()
+        {
+            PersonName = "test1",
+            Email = "test1@gmail.com",
+            DateOfBirth = new DateTime(2000, 1, 1),
+            Gender = GenderOptions.Male,
+            CountryId = countryResponse.CountryId,
+            Address = "China",
+            ReceiveNewsLetters = false,
+        };
+        var result = _personsService.DeletePerson(Guid.NewGuid());
+        Assert.False(result);
+    }
+
+    //valid personId --> return true
+    [Fact]
+    public void DeletePerson_ValidPersonId()
+    {
+        var countryAddRequest = new CountryAddRequest() { CountryName = "China" };
+        var countryResponse = _countriesService.AddCountry(countryAddRequest);
+        var personAddRequest = new PersonAddRequest()
+        {
+            PersonName = "test1",
+            Email = "test1@gmail.com",
+            DateOfBirth = new DateTime(2000, 1, 1),
+            Gender = GenderOptions.Male,
+            CountryId = countryResponse.CountryId,
+            Address = "China",
+            ReceiveNewsLetters = false,
+        };
+        var personResponse = _personsService.AddPerson(personAddRequest);
+        var result = _personsService.DeletePerson(personResponse.PersonId);
+        Assert.True(result);
+    }
+
+    //null personId --> throw ArgumentNullException
+    [Fact]
+    public void DeletePerson_NullPersonId()
+    {
+        Guid? guid = null;
+        Assert.Throws<ArgumentNullException>(() => _personsService.DeletePerson(guid));
+    }
+
+    #endregion
 }
