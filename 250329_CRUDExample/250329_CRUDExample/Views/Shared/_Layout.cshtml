@@ -1,11 +1,31 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title>@ViewData["Title"]</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="~/StyleSheet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
+
 <body>
+<div class="container">
+    <div class="navbar">
+        <div style="display: inline-block" class="navbar-brand">CRUD Demo</div>
+        <ul>
+            <li>
+                <a asp-action="Home" asp-controller="Person">Person</a>
+                <a asp-action="Create" asp-controller="Person">Create</a>
+            </li>
+        </ul>
+    </div>
 
-@RenderBody()
-
+    <div class="page-content">
+        @RenderBody()
+    </div>
+</div>
 </body>
+
 </html>

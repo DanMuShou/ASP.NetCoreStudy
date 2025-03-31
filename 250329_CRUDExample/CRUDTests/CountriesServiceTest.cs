@@ -10,7 +10,7 @@ public class CountriesServiceTest
 
     public CountriesServiceTest()
     {
-        _countriesService = new CountriesService();
+        _countriesService = new CountriesService(false);
     }
 
     #region AddCountries

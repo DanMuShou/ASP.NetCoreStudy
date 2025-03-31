@@ -1,0 +1,112 @@
+﻿@model IEnumerable<PersonResponse>
+
+@{
+    ViewBag.Title = "人员";
+}
+
+<!DOCTYPE html>
+
+<form asp-controller="Person" asp-action="Home" method="get">
+    <div>
+        <h1>人员</h1>
+        <div class="box flex">
+            <div class="flex-1">
+                <select class="form-input" name="searchBy">
+                    @foreach (var field in ViewBag.SearchFields)
+                    {
+                        if (field.Key == ViewBag.CurrentSearchBy)
+                        {
+                            <option value="@field.Key" selected="selected">@field.Value</option>
+                        }
+                        else
+                        {
+                            <option value="@field.Key">@field.Value</option>
+                        }
+                    }
+                    @* Eg : searchBy = PersonName & searchString = (abc?) *@
+                </select>
+            </div>
+
+            <div class="flex-1">
+                <input type="search" id="Search" class="form-input" placeholder="Search" name="searchString"
+                    value="@ViewBag.CurrentSearchString" />
+            </div>
+
+            <div class="flex-1">
+                <button class="button button-blue-back"> 查 询 </button>
+                <a class="link-hover"
+                   asp-controller="Person" 
+                   asp-action="Home" 
+                   asp-route-searchBy=""
+                   asp-route-searchString=""
+                   asp-route-sortBy=""
+                   asp-route-sortOrder=""
+                    > 清 除 
+                </a>
+            </div>
+
+        </div>
+
+        <table class="table w-100 mt">
+            <thead>
+                <tr>
+                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+                    {
+                        { "ColumnName", nameof(PersonResponse.PersonName) },
+                        { "DisplayName", "人员名称" }
+                    })
+                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+                    {
+                        { "ColumnName", nameof(PersonResponse.Email) },
+                        { "DisplayName", "Email" }
+                    })
+                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+                    {
+                        { "ColumnName", nameof(PersonResponse.DateOfBirth) },
+                        { "DisplayName", "出生日期" }
+                    })
+                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+                    {
+                        { "ColumnName", nameof(PersonResponse.Age) },
+                        { "DisplayName", "年龄" }
+                    })
+                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+                    {
+                        { "ColumnName", nameof(PersonResponse.Gender) },
+                        { "DisplayName", "性别" }
+                    })
+                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+                    {
+                        { "ColumnName", nameof(PersonResponse.CountryName) },
+                        { "DisplayName", "国家" }
+                    })
+                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+                    {
+                        { "ColumnName", nameof(PersonResponse.Address) },
+                        { "DisplayName", "地址" }
+                    })
+                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+                    {
+                        { "ColumnName", nameof(PersonResponse.ReceiveNewsLetters) },
+                        { "DisplayName", "新闻订阅" }
+                    })
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var personResponse in Model)
+                {
+                    <tr>
+                        <td style="width: 15%">@personResponse.PersonName</td>
+                        <td style="width: 20%">@personResponse.Email</td>
+                        <td style="width: 13%">@personResponse.DateOfBirth?.ToString("yyyy-MM-dd")</td>
+                        <td style="width: 9%">@personResponse.Age</td>
+                        <td style="width: 9%">@personResponse.Gender</td>
+                        <td style="width: 10%">@personResponse.CountryName</td>
+                        <td style="width: 10%">@personResponse.Address</td>
+                        <td style="width: 20%">@personResponse.ReceiveNewsLetters</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>

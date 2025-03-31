@@ -1,0 +1,25 @@
+﻿@{
+    var currentSortBy = ViewBag.CurrentSortBy;
+    var columnName = ViewBag.ColumnName;
+    var currentSortOrder = ViewBag.CurrentSortOrder?.ToString() ?? string.Empty;
+    var sortOption = currentSortBy == columnName
+            ? (currentSortOrder == SortOrderOptions.ASC.ToString()
+            ? SortOrderOptions.DESC
+            : SortOrderOptions.ASC)
+            : SortOrderOptions.ASC;
+
+    var sortIcon = currentSortBy == columnName
+            ? (currentSortOrder == SortOrderOptions.ASC.ToString()
+            ? "fa-solid fa-sort-up"
+            : "fa-solid fa-sort-down")
+            : null;
+}
+
+<th>
+    <a asp-controller="Person" asp-action="Home" asp-route-searchBy="@ViewBag.CurrentSearchBy"
+       asp-route-searchString="@ViewBag.CurrentSearchString" asp-route-sortBy="@columnName"
+       asp-route-sortOrder="@sortOption"
+       >@ViewBag.DisplayName
+    </a>
+    <i class="@sortIcon"></i>
+</th>
