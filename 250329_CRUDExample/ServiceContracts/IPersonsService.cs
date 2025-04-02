@@ -23,7 +23,7 @@ public interface IPersonsService
     /// </summary>
     /// <param name="personId">Person Guid</param>
     /// <returns>返回Person</returns>
-    PersonResponse? GetPersonByPersonID(Guid? personId);
+    PersonResponse? GetPersonByPersonId(Guid? personId);
 
     /// <summary>
     /// 根据搜索条件获取person的响应

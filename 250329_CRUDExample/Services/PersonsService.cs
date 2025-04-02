@@ -131,7 +131,7 @@ public class PersonsService : IPersonsService
         return _persons.Select(ConvertPersonToPersonResponse).ToList();
     }
 
-    public PersonResponse? GetPersonByPersonID(Guid? personId)
+    public PersonResponse? GetPersonByPersonId(Guid? personId)
     {
         if (personId == null)
             return null;

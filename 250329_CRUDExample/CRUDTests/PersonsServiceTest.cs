@@ -84,7 +84,7 @@ public class PersonsServiceTest
         //arrange
         Guid? personId = null;
         //act
-        var actualResponse = _personsService.GetPersonByPersonID(personId);
+        var actualResponse = _personsService.GetPersonByPersonId(personId);
         //assert
         Assert.Null(actualResponse);
     }
@@ -96,7 +96,7 @@ public class PersonsServiceTest
         //arrange
         Guid? personId = Guid.NewGuid();
         //act
-        var actualResponse = _personsService.GetPersonByPersonID(personId);
+        var actualResponse = _personsService.GetPersonByPersonId(personId);
         //assert
         Assert.Null(actualResponse);
     }
@@ -142,11 +142,11 @@ public class PersonsServiceTest
         Assert.Contains(personResponse2.PersonId, allPersonResponse.Select(temp => temp.PersonId));
         Assert.Equal(
             personResponse1.PersonId,
-            _personsService.GetPersonByPersonID(personResponse1.PersonId)?.PersonId
+            _personsService.GetPersonByPersonId(personResponse1.PersonId)?.PersonId
         );
         Assert.Equal(
             personResponse2.PersonId,
-            _personsService.GetPersonByPersonID(personResponse2.PersonId)?.PersonId
+            _personsService.GetPersonByPersonId(personResponse2.PersonId)?.PersonId
         );
     }
 
@@ -556,7 +556,7 @@ public class PersonsServiceTest
 
         var updatedPersonResponse = _personsService.UpdatePerson(personUpdateRequest);
 
-        var inquirePersonResponse = _personsService.GetPersonByPersonID(personResponse.PersonId);
+        var inquirePersonResponse = _personsService.GetPersonByPersonId(personResponse.PersonId);
 
         Assert.Equal(updatedPersonResponse, inquirePersonResponse);
         Assert.Equal(updatedPersonResponse.PersonId, inquirePersonResponse?.PersonId);

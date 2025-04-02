@@ -1,0 +1,60 @@
+﻿@model PersonResponse
+
+@{
+    ViewBag.Title = "删除人员信息";
+}
+
+<!DOCTYPE html>
+<body>
+<div>
+    <a asp-controller="Person" asp-action="Home">返回主页</a>
+    <h2>删除人员信息</h2>
+    <h3 class="text-red">确认删除人员信息？</h3>
+    <div class="center-box">
+        <form asp-controller="Person" asp-action="Delete" method="post">
+            <input asp-for="PersonId" type="hidden"/>
+            @* PersonName *@
+            <div class="form-field flex">
+                <div class="w-25">
+                    <label asp-for="PersonName" class="form-label pt">人员名称</label>
+                    <label class="form-label pt">人员名称</label>
+                </div>
+                <div class="flex-1">
+                    <input asp-for="PersonName" class="form-input" disabled="disabled">
+                </div>
+            </div>
+            @* Email *@
+            <div class="form-field flex">
+                <div class="w-25">
+                    <label asp-for="Email" class="form-label pt">Email</label>
+                </div>
+                <div class="flex-1">
+                    @* type email不能删除 默认为text所以验证邮箱需要email限制 *@
+                    @* disabled="disabled" 不会被上传 *@
+                    <input asp-for="Email" class="form-input" disabled="disabled">
+                </div>
+            </div>
+
+            @* 提交 *@
+            <div class="form-field flex">
+                <div class="w-25">
+                </div>
+                <div class="flex-1">
+                    <button class="button button-red-back"> 删 除 </button>
+                    @if (ViewBag.Errors != null)
+                    {
+                        <div class="text-red ml">
+                            <ul>
+                                @foreach (var error in ViewBag.Errors)
+                                {
+                                    <li class="ml">@error</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>

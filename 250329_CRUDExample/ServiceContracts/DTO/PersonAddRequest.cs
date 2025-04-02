@@ -15,12 +15,19 @@ public class PersonAddRequest
 
     [Required(ErrorMessage = "邮箱不能为空")]
     [EmailAddress(ErrorMessage = "邮箱格式不正确")]
+    [DataType(DataType.EmailAddress)]
     public string? Email { get; set; }
 
     [Required(ErrorMessage = "出生日期不能为空")]
+    [DataType(DataType.Date)]
     public DateTime? DateOfBirth { get; set; }
+
+    [Required(ErrorMessage = "请填入性别")]
     public GenderOptions? Gender { get; set; }
+
+    [Required(ErrorMessage = "请填入国家")]
     public Guid? CountryId { get; set; }
+
     public string? Address { get; set; }
     public bool ReceiveNewsLetters { get; set; }
 }

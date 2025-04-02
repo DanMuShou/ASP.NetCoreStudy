@@ -13,11 +13,13 @@
 <body>
 <div class="container">
     <div class="navbar">
+        <img asp-append-version="true" src="~/Logo.png" width="25px" alt=""/>
         <div style="display: inline-block" class="navbar-brand">CRUD Demo</div>
+        
         <ul>
             <li>
-                <a asp-action="Home" asp-controller="Person">Person</a>
-                <a asp-action="Create" asp-controller="Person">Create</a>
+                <a asp-action="Home" asp-controller="Person">人员信息</a>
+                <a asp-action="Create" asp-controller="Person">创建人员</a>
             </li>
         </ul>
     </div>
@@ -26,6 +28,9 @@
         @RenderBody()
     </div>
 </div>
+
+@RenderSection("Scripts", required: false)
+
 </body>
 
 </html>
