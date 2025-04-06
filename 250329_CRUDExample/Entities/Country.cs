@@ -1,4 +1,6 @@
-﻿namespace Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities;
 
 /// <summary>
 /// 文档注释 --
@@ -6,6 +8,7 @@
 /// </summary>
 public class Country
 {
-    public Guid CountryId{ get; set;}
-    public string? CountryName{ get; set;}
+    [Key]
+    public Guid CountryId { get; set; }
+    public string? CountryName { get; set; }
 }
