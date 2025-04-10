@@ -1,0 +1,41 @@
+﻿@model IEnumerable<PersonResponse>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<link href="@("http://" + Context.Request.Host + "/StyleSheet.css")" rel="stylesheet"/>
+@* http"//loaclhost:port/StyleSheet.css *@
+
+<h1>人员信息</h1>
+<table class="table w-100 mt">
+    <thead>
+    <tr>
+        <th>人员名称</th>
+        <th>Email</th>
+        <th>出生日期</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>国家</th>
+        <th>地址</th>
+        <th>新闻订阅</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var personResponse in Model)
+    {
+        <tr>
+            <td style="width: 15%">@personResponse.PersonName</td>
+            <td style="width: 20%">@personResponse.Email</td>
+            <td style="width: 13%">@personResponse.DateOfBirth?.ToString("yyyy-MM-dd")</td>
+            <td style="width: 9%">@personResponse.Age</td>
+            <td style="width: 9%">@personResponse.Gender</td>
+            <td style="width: 10%">@personResponse.CountryName</td>
+            <td style="width: 10%">@personResponse.Address</td>
+            <td style="width: 20%">@personResponse.ReceiveNewsLetters</td>
+        </tr>
+    }
+    </tbody>
+</table>

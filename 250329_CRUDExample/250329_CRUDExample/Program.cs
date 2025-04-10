@@ -21,10 +21,16 @@ if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+
+Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
+
 app.UseStaticFiles();
 app.UseRouting();
 app.MapControllers();
 app.Run();
 
-
 //9. EF Stored Proc
+//12
+//14 - 7:00
+// ->> 16
+// ->> 22 start

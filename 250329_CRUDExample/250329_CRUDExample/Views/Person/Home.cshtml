@@ -9,6 +9,11 @@
 <form asp-controller="Person" asp-action="Home" method="get">
     <div>
         <h1>人员</h1>
+        <a asp-action="Create" asp-controller="Person">创建人员</a>
+        <a asp-controller="Person" asp-action="PersonsPdf" class="ml">下载信息(PDF)</a>
+        <a asp-controller="Person" asp-action="PersonsCsv" class="ml">下载信息(CSV)</a>
+        <a asp-controller="Person" asp-action="PersonsExcel" class="ml">下载信息(Excel)</a>
+        
         <div class="box flex">
             <div class="flex-1">
                 <select class="form-input" name="searchBy">

@@ -20,29 +20,29 @@ public class CountriesServiceTest
     #region AddCountries
     //提供countryAddRequest null 抛出异常ArgumentNullException(参数null)
     [Fact]
-    public void AddCountry_NullCountry()
+    public async Task AddCountry_NullCountry()
     {
         //arrange
         CountryAddRequest? request = null;
         //assert
-        Assert.Throws<ArgumentNullException>(() =>
+        await Assert.ThrowsAsync<ArgumentNullException>(async () =>
         {
             //act
-            _countriesService.AddCountry(request);
+            await _countriesService.AddCountry(request);
         });
     }
 
     //CountryAddRequest.CountryName = null --> 抛出异常ArgumentException(参数异常)
     [Fact]
-    public void AddCountry_NullCountryName()
+    public async Task AddCountry_NullCountryName()
     {
         //arrange
         var request = new CountryAddRequest() { CountryName = null };
         //assert
-        Assert.Throws<ArgumentException>(() =>
+        await Assert.ThrowsAsync<ArgumentException>(async () =>
         {
             //act
-            _countriesService.AddCountry(request);
+            await _countriesService.AddCountry(request);
         });
     }
 
@@ -64,15 +64,15 @@ public class CountriesServiceTest
 
     //CountryAddRequest合格  --> 添加到列表 添加成功
     [Fact]
-    public void AddCountry_Success()
+    public async Task AddCountry_Success()
     {
         //arrange
         var request1 = new CountryAddRequest() { CountryName = "China" };
         var request2 = new CountryAddRequest() { CountryName = "Russia" };
         //act
-        var response1 = _countriesService.AddCountry(request1);
-        var response2 = _countriesService.AddCountry(request2);
-        var allResponse = _countriesService.GetAllCountries();
+        var response1 = await _countriesService.AddCountry(request1);
+        var response2 = await _countriesService.AddCountry(request2);
+        var allResponse = await _countriesService.GetAllCountries();
         //assert
         Assert.True(response1.CountryId != Guid.Empty);
         Assert.True(response2.CountryId != Guid.Empty);
@@ -84,19 +84,19 @@ public class CountriesServiceTest
 
     #region GetAllCountries
     [Fact]
-    public void GetAllCountries_EmptyList()
+    public async Task GetAllCountries_EmptyList()
     {
         //arrange
         //null
 
         //act
-        var actualCountryList = _countriesService.GetAllCountries();
+        var actualCountryList = await _countriesService.GetAllCountries();
         //assert
         Assert.Empty(actualCountryList);
     }
 
     [Fact]
-    public void GetAllCountries_AddFewCountries()
+    public async Task GetAllCountries_AddFewCountries()
     {
         //arrange
         var actualCountryList = new List<CountryAddRequest>()
@@ -108,10 +108,11 @@ public class CountriesServiceTest
         };
         //act
         var countriesListFromAddCountry = actualCountryList
-            .Select(country => _countriesService.AddCountry(country))
+            .Select(async country => await _countriesService.AddCountry(country))
+            .Select(task => task?.Result)
             .ToList();
 
-        var actualCountryResponseList = _countriesService.GetAllCountries();
+        var actualCountryResponseList = await _countriesService.GetAllCountries();
         //assert
         foreach (var expectedCountry in countriesListFromAddCountry)
         {
@@ -129,14 +130,14 @@ public class CountriesServiceTest
         Guid? id = null;
 
         //act
-        var actualResponse = _countriesService.GetCountryByCountryID(id);
+        var actualResponse = _countriesService.GetCountryByCountryId(id);
         //assert
         Assert.Null(actualResponse);
     }
 
     [Fact]
     //提供guid 返回对应的 response
-    public void GetCountryByCountryID_AddFewCountries()
+    public async Task GetCountryByCountryID_AddFewCountries()
     {
         //arrange
         var actualCountryList = new List<CountryAddRequest>()
@@ -148,14 +149,15 @@ public class CountriesServiceTest
         };
         //act
         var countriesListFromAddCountry = actualCountryList
-            .Select(country => _countriesService.AddCountry(country))
+            .Select(async country => await _countriesService.AddCountry(country))
+            .Select(task => task?.Result)
             .ToList();
 
-        var countriesIds = countriesListFromAddCountry.Select(country => country.CountryId);
+        var countriesIds = countriesListFromAddCountry.Select(country => country?.CountryId);
 
         foreach (var countryId in countriesIds)
         {
-            var actualResponse = _countriesService.GetCountryByCountryID(countryId);
+            var actualResponse = await _countriesService.GetCountryByCountryId(countryId);
             Assert.NotNull(actualResponse);
             Assert.Equal(countryId, actualResponse.CountryId);
         }
