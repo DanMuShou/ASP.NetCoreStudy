@@ -1,4 +1,5 @@
 ﻿using Entities;
+using EntityFrameworkCoreMock;
 using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
@@ -12,9 +13,15 @@ public class CountriesServiceTest
 
     public CountriesServiceTest()
     {
-        _countriesService = new CountriesService(
-            new PersonsDbContext(new DbContextOptions<PersonsDbContext>())
+        var countriesInitialData = new List<Country>() { };
+
+        var dbContextMock = new DbContextMock<ApplicationDbContext>(
+            new DbContextOptionsBuilder<ApplicationDbContext>().Options
         );
+
+        var dbContext = dbContextMock.Object;
+        dbContextMock.CreateDbSetMock(temp => temp.Countries, countriesInitialData);
+        _countriesService = new CountriesService(dbContext);
     }
 
     #region AddCountries
@@ -53,12 +60,14 @@ public class CountriesServiceTest
         //arrange
         var request1 = new CountryAddRequest() { CountryName = "China" };
         var request2 = new CountryAddRequest() { CountryName = "China" };
+        var request3 = new CountryAddRequest() { CountryName = "China" };
         //assert
-        Assert.Throws<ArgumentException>(() =>
+        Assert.ThrowsAsync<ArgumentException>(async () =>
         {
             //act
-            _countriesService.AddCountry(request1);
-            _countriesService.AddCountry(request2);
+            await _countriesService.AddCountry(request1);
+            await _countriesService.AddCountry(request2);
+            await _countriesService.AddCountry(request3);
         });
     }
 
@@ -124,13 +133,13 @@ public class CountriesServiceTest
     #region GetCountryByCountryID
     [Fact]
     //提供null guid 返回null response
-    public void GetCountryByCountryID_NullId()
+    public async Task GetCountryByCountryID_NullId()
     {
         //arrange
         Guid? id = null;
 
         //act
-        var actualResponse = _countriesService.GetCountryByCountryId(id);
+        var actualResponse = await _countriesService.GetCountryByCountryId(id);
         //assert
         Assert.Null(actualResponse);
     }

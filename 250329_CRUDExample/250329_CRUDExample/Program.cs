@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICountriesService, CountriesService>();
 builder.Services.AddScoped<IPersonsService, PersonsService>();
 
-builder.Services.AddDbContext<PersonsDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
@@ -34,3 +34,4 @@ app.Run();
 //14 - 7:00
 // ->> 16
 // ->> 22 start
+// ->> 19-07 Start

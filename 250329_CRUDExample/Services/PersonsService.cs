@@ -18,11 +18,11 @@ namespace Services;
 public class PersonsService : IPersonsService
 {
     private readonly ICountriesService _countriesService;
-    private readonly PersonsDbContext _db;
+    private readonly ApplicationDbContext _db;
 
-    public PersonsService(PersonsDbContext personsDbContext, ICountriesService countriesService)
+    public PersonsService(ApplicationDbContext applicationDbContext, ICountriesService countriesService)
     {
-        _db = personsDbContext;
+        _db = applicationDbContext;
         _countriesService = countriesService;
     }
 
