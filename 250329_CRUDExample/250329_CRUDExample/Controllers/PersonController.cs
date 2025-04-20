@@ -132,7 +132,7 @@ public class PersonController : Controller
         //验证模型是否正确填写
         if (ModelState.IsValid)
         {
-            // var updatePersonResponse = await _personsService.UpdatePerson(personUpdateRequest);
+            var updatePersonResponse = await _personsService.UpdatePerson(personUpdateRequest);
             return RedirectToAction("Home", "Person");
         }
         else

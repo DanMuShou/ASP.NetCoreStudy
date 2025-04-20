@@ -4,8 +4,11 @@ using Entities;
 using EntityFrameworkCoreMock;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Moq;
 using RepositoryContracts;
+using Serilog;
+using Serilog.Extensions.Hosting;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.Enums;
@@ -37,7 +40,11 @@ public class PersonsServiceTest
         // 获取模拟对象的实例
         var personsRepository = _personsRepositoryMock.Object;
         // 创建服务
-        _personsService = new PersonsService(personsRepository);
+        _personsService = new PersonsService(
+            personsRepository,
+            new Mock<ILogger<PersonsService>>().Object,
+            new Mock<IDiagnosticContext>().Object
+        );
 
         _testOutputHelper = testOutputHelper;
         _fixture = new Fixture();

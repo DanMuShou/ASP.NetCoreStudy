@@ -6,9 +6,12 @@ using CsvHelper.Configuration;
 using Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using RepositoryContracts;
+using Serilog;
+using SerilogTimings;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.Enums;
@@ -16,15 +19,12 @@ using Services.Helpers;
 
 namespace Services;
 
-public class PersonsService : IPersonsService
+public class PersonsService(
+    IPersonsRepository personsRepository,
+    ILogger<PersonsService> logger,
+    IDiagnosticContext diagnosticContext
+) : IPersonsService
 {
-    private readonly IPersonsRepository _personsRepository;
-
-    public PersonsService(IPersonsRepository personsRepository)
-    {
-        _personsRepository = personsRepository;
-    }
-
     public async Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest)
     {
         if (personAddRequest == null)
@@ -36,14 +36,14 @@ public class PersonsService : IPersonsService
         var person = personAddRequest.ToPerson();
         person.PersonId = Guid.NewGuid();
 
-        await _personsRepository.AddPerson(person);
+        await personsRepository.AddPerson(person);
 
         return person.ToPersonResponse();
     }
 
     public async Task<List<PersonResponse>> GetAllPersons()
     {
-        var persons = await _personsRepository.GetAllPersons();
+        var persons = await personsRepository.GetAllPersons();
         return persons.Select(person => person.ToPersonResponse()).ToList();
     }
 
@@ -52,44 +52,52 @@ public class PersonsService : IPersonsService
         if (personId == null)
             return null;
 
-        var person = await _personsRepository.GetPersonByPersonId(personId.Value);
+        var person = await personsRepository.GetPersonByPersonId(personId.Value);
         return person?.ToPersonResponse();
     }
 
     public async Task<List<PersonResponse>> GetFilteredPersons(string searchBy, string? searchString)
     {
-        //字符串无法
-        var filterPersonList = searchBy switch
+        logger.Log(LogLevel.Information, "服务调用: PersonsService -> GetFilteredPersons");
+
+        List<Person> filterPersonList;
+        using (Operation.Time("库中过滤人员所耗时"))
         {
-            nameof(PersonResponse.PersonName) => await _personsRepository.GetFilteredPersons(temp =>
-                !string.IsNullOrEmpty(temp.PersonName) && temp.PersonName.Contains(searchString ?? string.Empty)
-            ),
+            filterPersonList = searchBy switch
+            {
+                nameof(PersonResponse.PersonName) => await personsRepository.GetFilteredPersons(temp =>
+                    !string.IsNullOrEmpty(temp.PersonName) && temp.PersonName.Contains(searchString ?? string.Empty)
+                ),
 
-            nameof(PersonResponse.Email) => await _personsRepository.GetFilteredPersons(temp =>
-                !string.IsNullOrEmpty(temp.Email) && temp.Email.Contains(searchString ?? string.Empty)
-            ),
+                nameof(PersonResponse.Email) => await personsRepository.GetFilteredPersons(temp =>
+                    !string.IsNullOrEmpty(temp.Email) && temp.Email.Contains(searchString ?? string.Empty)
+                ),
 
-            nameof(PersonResponse.DateOfBirth) => await _personsRepository.GetFilteredPersons(temp =>
-                temp.DateOfBirth.HasValue
-                && temp.DateOfBirth.Value.ToString("dd MMMM yyyy").Contains(searchString ?? "")
-            ),
+                nameof(PersonResponse.DateOfBirth) => await personsRepository.GetFilteredPersons(temp =>
+                    temp.DateOfBirth.HasValue
+                    && temp.DateOfBirth.Value.ToString("dd MMMM yyyy").Contains(searchString ?? "")
+                ),
 
-            nameof(PersonResponse.Gender) => await _personsRepository.GetFilteredPersons(temp =>
-                !string.IsNullOrEmpty(temp.Gender) && temp.Gender.Equals(searchString)
-            ),
+                nameof(PersonResponse.Gender) => await personsRepository.GetFilteredPersons(temp =>
+                    !string.IsNullOrEmpty(temp.Gender) && temp.Gender.Equals(searchString)
+                ),
 
-            nameof(PersonResponse.CountryName) => await _personsRepository.GetFilteredPersons(temp =>
-                temp.Country != null
-                && !string.IsNullOrEmpty(temp.Country.CountryName)
-                && temp.Country.CountryName.Contains(searchString ?? string.Empty)
-            ),
+                nameof(PersonResponse.CountryName) => await personsRepository.GetFilteredPersons(temp =>
+                    temp.Country != null
+                    && !string.IsNullOrEmpty(temp.Country.CountryName)
+                    && temp.Country.CountryName.Contains(searchString ?? string.Empty)
+                ),
 
-            nameof(PersonResponse.Address) => await _personsRepository.GetFilteredPersons(temp =>
-                !string.IsNullOrEmpty(temp.Address) && temp.Address.Contains(searchString ?? string.Empty)
-            ),
-            _ => await _personsRepository.GetAllPersons(),
-        };
+                nameof(PersonResponse.Address) => await personsRepository.GetFilteredPersons(temp =>
+                    !string.IsNullOrEmpty(temp.Address) && temp.Address.Contains(searchString ?? string.Empty)
+                ),
 
+                _ => await personsRepository.GetAllPersons(),
+            };
+        }
+
+        //将过滤后的人员列表（filterPersonList）存储到诊断上下文中，以供后续处理或监控使用。
+        diagnosticContext.Set("Persons", filterPersonList);
         return filterPersonList.Select(p => p.ToPersonResponse()).ToList();
     }
 
@@ -99,6 +107,8 @@ public class PersonsService : IPersonsService
         SortOrderOptions sortOrder
     )
     {
+        logger.Log(LogLevel.Information, "服务调用: PersonsService -> GetSortPersons");
+
         if (string.IsNullOrEmpty(sortBy))
             return Task.FromResult(allPersons);
 
@@ -165,12 +175,14 @@ public class PersonsService : IPersonsService
 
     public async Task<PersonResponse> UpdatePerson(PersonUpdateRequest? personUpdateRequest)
     {
+        logger.Log(LogLevel.Information, "服务调用: PersonsService -> UpdatePerson");
+
         ArgumentNullException.ThrowIfNull(personUpdateRequest);
 
         //model validation
         ValidationHelper.ModelValidation(personUpdateRequest);
         //update person
-        var targetPerson = await _personsRepository.GetPersonByPersonId(personUpdateRequest.PersonId);
+        var targetPerson = await personsRepository.GetPersonByPersonId(personUpdateRequest.PersonId);
         if (targetPerson == null)
             throw new ArgumentException("给出的Person无法找到");
 
@@ -182,20 +194,20 @@ public class PersonsService : IPersonsService
         targetPerson.Address = personUpdateRequest.Address;
         targetPerson.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
 
-        var updatedPerson = await _personsRepository.UpdatePerson(targetPerson);
+        var updatedPerson = await personsRepository.UpdatePerson(targetPerson);
         return updatedPerson.ToPersonResponse();
     }
 
     public async Task<bool> DeletePerson(Guid? personId)
     {
         ArgumentNullException.ThrowIfNull(personId);
-        var targetPerson = await _personsRepository.GetPersonByPersonId(personId.Value);
+        var targetPerson = await personsRepository.GetPersonByPersonId(personId.Value);
 
         if (targetPerson == null)
             return false;
 
         //删除该person id的记录
-        return await _personsRepository.DeletePersonByPersonId(targetPerson.PersonId);
+        return await personsRepository.DeletePersonByPersonId(targetPerson.PersonId);
     }
 
     public async Task<MemoryStream> GetPersonCsv()

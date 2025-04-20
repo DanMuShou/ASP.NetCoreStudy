@@ -33,4 +33,13 @@ public class Person
 
     [ForeignKey("CountryId")]
     public virtual Country? Country { get; set; }
+
+    public override string ToString()
+    {
+        return $"人员Id {PersonId}, 人员名称 {PersonName}, "
+            + $"邮箱 {Email}, 生日 {DateOfBirth}, "
+            + $"性别 {Gender}, 国家Id {CountryId}, "
+            + $"国家名称 {Country?.CountryName}, 地址 {Address}, "
+            + $"收到新闻 {ReceiveNewsLetters}";
+    }
 }

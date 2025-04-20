@@ -10,16 +10,11 @@ namespace CRUDTests;
 public class PersonsControllerIntegrationTest : IClassFixture<CustomWebApplicationFactory>
 {
     private readonly HttpClient _client;
-    private readonly ITestOutputHelper _output;
 
     //xUnit 自动注入 CustomWebApplicationFactory，确保测试环境与主应用配置一致（如替换数据库、环境变量等）。
-    public PersonsControllerIntegrationTest(
-        CustomWebApplicationFactory factory,
-        ITestOutputHelper output
-    )
+    public PersonsControllerIntegrationTest(CustomWebApplicationFactory factory)
     {
         _client = factory.CreateClient();
-        _output = output;
     }
 
     #region Home
@@ -36,8 +31,6 @@ public class PersonsControllerIntegrationTest : IClassFixture<CustomWebApplicati
         var document = html.DocumentNode;
 
         document.QuerySelectorAll("table.persons").Should().NotBeNull();
-
-        _output.WriteLine(responseBody);
     }
 
     #endregion
