@@ -1,3 +1,4 @@
+using _250329_CRUDExample.Filters.ActionFilters;
 using Entities;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,25 @@ using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<ResponseHeaderActionFilter>();
+
+//注册 MVC 控制器和服务，使应用程序支持控制器（Controllers）和 Razor 视图（Views）功能。
+builder.Services.AddControllersWithViews(options =>
+{
+    //将 ResponseHeaderActionFilter 全局添加到所有控制器或动作中。
+    // options.Filters.Add<ResponseHeaderActionFilter>();
+    var logger = builder
+        .Services.BuildServiceProvider()
+        .GetRequiredKeyedService<ILogger<ResponseHeaderActionFilter>>(null);
+
+    var filter = new ResponseHeaderActionFilter(logger)
+    {
+        Key = "My-Key-Global",
+        Value = "My-Value-Global",
+        Order = 2,
+    };
+    options.Filters.Add(filter);
+});
 
 //Serilog 配置
 //Serilog 集成到 ASP.NET Core 应用中，替代默认的日志实现。
@@ -29,6 +48,10 @@ builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
 builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
 builder.Services.AddScoped<ICountriesService, CountriesService>();
 builder.Services.AddScoped<IPersonsService, PersonsService>();
+
+//每次从DI容器请求PersonListActionFilter实例时，都会创建一个全新实例
+//适合轻量级无状态对象，资源消耗最低
+builder.Services.AddTransient<PersonListActionFilter>();
 
 //AddHttpLogging 方法用于在 ASP.NET Core 应用中添加 HTTP 请求和响应的日志记录功能。通过配置 options.LoggingFields，可以指定需要记录的请求或响应字段。
 builder.Services.AddHttpLogging(options =>
@@ -63,3 +86,5 @@ app.UseSerilogRequestLogging();
 app.Run();
 
 public partial class Program { }
+
+//21 - 20 Start

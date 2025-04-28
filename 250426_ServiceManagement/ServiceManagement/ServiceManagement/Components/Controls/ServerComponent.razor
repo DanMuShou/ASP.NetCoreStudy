@@ -1,0 +1,21 @@
+﻿@if (Server != null)
+{
+  <div data-name="@Server.Name"
+       data-status="服务是@(Server.IsOnline ? "在线" : "不在线")"
+       style="color:@(Server.IsOnline ? "green" : "red")">
+    @Server.Name 在 @Server.City 是 @(Server.IsOnline ? "在线" : "不在线")
+    &nbsp;&nbsp;
+    <button type="button" class="btn btn-primary" @onclick="ChangeStatus">开/关 服务器</button>
+  </div>
+}
+
+@code {
+  [SupplyParameterFromForm] private Server? Server { get; set; } = new Server { Name = "Server error", City = "City error" };
+
+  private void ChangeStatus()
+  {
+    if (Server != null)
+      Server.IsOnline = !Server.IsOnline;
+  }
+
+}

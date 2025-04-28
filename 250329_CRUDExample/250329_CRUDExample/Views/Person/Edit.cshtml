@@ -99,7 +99,7 @@
                 </div>
                 <div class="flex-1">
                     <button class="button button-green-back"> 更 新 </button>
-                    <div asp-validation-summary="All" class="text-red"></div>
+                    @* <div asp-validation-summary="All" class="text-red"></div> *@
                     @if (ViewBag.Errors != null)
                     {
                         <div class="text-red ml">
@@ -118,19 +118,19 @@
 </div>
 </body>
 
-@section scripts
-{
-    <script asp-fallback-test="Window.jQuery" asp-fallback-src="~/jquery.min.js"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script asp-fallback-test="Window.jQuery.validate" asp-fallback-src="~/jquery.validate.min.js"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"
-            integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script asp-fallback-test="Window.jQuery.validate.unobtrusive"
-            asp-fallback-src="~/jquery.validate.unobtrusive.min.js"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"
-            integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-}
+@* @section scripts *@
+@* { *@
+@*     <script asp-fallback-test="Window.jQuery" asp-fallback-src="~/jquery.min.js" *@
+@*             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" *@
+@*             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" *@
+@*             crossorigin="anonymous" referrerpolicy="no-referrer"></script> *@
+@*     <script asp-fallback-test="Window.jQuery.validate" asp-fallback-src="~/jquery.validate.min.js" *@
+@*             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" *@
+@*             integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ==" *@
+@*             crossorigin="anonymous" referrerpolicy="no-referrer"></script> *@
+@*     <script asp-fallback-test="Window.jQuery.validate.unobtrusive" *@
+@*             asp-fallback-src="~/jquery.validate.unobtrusive.min.js" *@
+@*             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js" *@
+@*             integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog==" *@
+@*             crossorigin="anonymous" referrerpolicy="no-referrer"></script> *@
+@* } *@

@@ -11,16 +11,26 @@ public class PersonsRepository(ApplicationDbContext db, ILogger<PersonsRepositor
 {
     public async Task<Person> AddPerson(Person person)
     {
+        logger.Log(LogLevel.Information, "库调用: PersonsRepository -> AddPerson");
+
         await db.Persons.AddAsync(person);
         await db.SaveChangesAsync();
         return person;
     }
 
-    public async Task<List<Person>> GetAllPersons() =>
-        await db.Persons.Include(p => p.Country).ToListAsync();
+    public async Task<List<Person>> GetAllPersons()
+    {
+        logger.Log(LogLevel.Information, "库调用: PersonsRepository -> GetAllPersons");
+        return await db.Persons.Include(p => p.Country).ToListAsync();
+    }
 
-    public async Task<Person?> GetPersonByPersonId(Guid personId) =>
-        await db.Persons.Include(p => p.Country).FirstOrDefaultAsync(p => p.PersonId == personId);
+    public async Task<Person?> GetPersonByPersonId(Guid personId)
+    {
+        logger.Log(LogLevel.Information, "库调用: PersonsRepository -> GetPersonByPersonId");
+        return await db
+            .Persons.Include(p => p.Country)
+            .FirstOrDefaultAsync(p => p.PersonId == personId);
+    }
 
     //Expression - 解析表达式树，不直接执行  数据库查询、动态分析  低内存消耗（数据库层过滤）
     public async Task<List<Person>> GetFilteredPersons(Expression<Func<Person, bool>> predicate)
@@ -31,6 +41,8 @@ public class PersonsRepository(ApplicationDbContext db, ILogger<PersonsRepositor
 
     public async Task<bool> DeletePersonByPersonId(Guid personId)
     {
+        logger.Log(LogLevel.Information, "库调用: PersonsRepository -> DeletePersonByPersonId");
+
         db.Persons.RemoveRange(db.Persons.Where(p => p.PersonId == personId));
         return await db.SaveChangesAsync() > 0;
     }
@@ -55,7 +67,7 @@ public class PersonsRepository(ApplicationDbContext db, ILogger<PersonsRepositor
         matchingPerson.Address = person.Address;
         matchingPerson.ReceiveNewsLetters = person.ReceiveNewsLetters;
 
-        var countUpdated = await db.SaveChangesAsync();
+        await db.SaveChangesAsync();
         return matchingPerson;
     }
 }

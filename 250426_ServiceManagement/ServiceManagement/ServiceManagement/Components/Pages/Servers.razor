@@ -1,0 +1,118 @@
+﻿@page "/servers"
+
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+
+<h3>Servers</h3>
+<br>
+<br>
+
+<div class="container-fluid text-center">
+    <div class="row w-50">
+        @foreach (var city in _cities)
+        {
+            <div class="col">
+                <div
+                    class="card @(_selectedCity.Equals(city, StringComparison.OrdinalIgnoreCase) ? "border-primary" : "")">
+                    <img src="images/@(city).png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <button class="btn btn-primary" @onclick="@(() => { SelectCity(city); })"
+                                type="button">@city</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<br>
+<div class="input-group mb-3">
+    <input class="form-control" placeholder="选择服务器" type="text" @bind-value="ServerFilter"
+           @bind-value:event="oninput"/>
+    <button class="btn btn-outline-secondary" type="button" id="button-search" @onclick="HandelServerSearch">搜索
+    </button>
+</div>
+
+<br>
+
+<ul>
+    <Virtualize Items="_servers" Context="server">
+        <li @key="server.ServerId">
+            @server.Name 在 @server.City 是
+            <span style="color:@(server.IsOnline ? "green" : "red")">
+                @(server.IsOnline ? "在线" : "离线")
+            </span>
+            <a href="/servers/@server.ServerId" class="btn btn-link">编辑</a>
+            &nbsp;
+            <EditForm Model="server" FormName="@($"form-server-{server.ServerId}")"
+                      OnValidSubmit="@(() => { @DeleteServer(server.ServerId); })">
+                <button type="submit" class="btn btn-primary">删除</button>
+            </EditForm>
+        </li>
+    </Virtualize>
+
+</ul>
+
+<p>
+    <a href="/servers/add" class="btn btn-primary">添加服务器</a>
+</p>
+
+<p>
+    <button class="btn btn-secondary"
+            @onclick="@(() => { _servers.Insert(0, new Server() { Name = "Server add", City = "City add" }); })">添加服务器
+        2
+    </button>
+</p>
+
+@code {
+    private List<Server> _servers = ServersRepository.GetServersByCity("Toronto");
+    private readonly List<string> _cities = CitiesRepository.GetCities();
+
+    private string _selectedCity = "Toronto";
+
+    private string _serverFilter = "";
+
+    private string ServerFilter
+    {
+        get => _serverFilter;
+        set
+        {
+            _serverFilter = value;
+            _servers = ServersRepository.SearchServers(_serverFilter);
+        }
+    }
+
+    private void DeleteServer(int serverId)
+    {
+        if (serverId <= 0) return;
+        ServersRepository.DeleteServer(serverId);
+        _servers = ServersRepository.GetServersByCity(_selectedCity);
+        NavigationManager.Refresh();
+    }
+
+    private void SelectCity(string cityName)
+    {
+        _selectedCity = cityName;
+        _servers = ServersRepository.GetServersByCity(_selectedCity);
+
+        if (cityName == "Halifax")
+        {
+            for (var i = 14; i < 2000; i++)
+            {
+                _servers.Add(new Server() { ServerId = i, Name = $"Server{i}", City = "Halifax" });
+            }
+        }
+    }
+
+    //在用户完成输入并离开输入框时触发
+    private void HandleServerFilterChanged(ChangeEventArgs args)
+    {
+        ServerFilter = args.Value?.ToString() ?? string.Empty;
+    }
+
+    private void HandelServerSearch()
+    {
+        _selectedCity = string.Empty;
+    }
+
+}
