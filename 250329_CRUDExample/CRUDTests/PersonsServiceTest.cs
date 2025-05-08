@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using RepositoryContracts;
 using Serilog;
-using Serilog.Extensions.Hosting;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.Enums;
@@ -19,7 +18,12 @@ namespace CRUDTests;
 
 public class PersonsServiceTest
 {
-    private readonly IPersonsService _personsService;
+    private readonly IPersonsAdderService _personsAdderService;
+    private readonly IPersonsDeleterService _personsDeleterService;
+    private readonly IPersonsGetterService _personsGetterService;
+    private readonly IPersonsSorterService _personsSorterService;
+    private readonly IPersonsUpdaterService _personsUpdaterService;
+
     private readonly Mock<IPersonsRepository> _personsRepositoryMock;
 
     private readonly ITestOutputHelper _testOutputHelper;
@@ -39,13 +43,32 @@ public class PersonsServiceTest
         _personsRepositoryMock = new Mock<IPersonsRepository>();
         // 获取模拟对象的实例
         var personsRepository = _personsRepositoryMock.Object;
-        // 创建服务
-        _personsService = new PersonsService(
+
+        _personsAdderService = new PersonsAdderService(
             personsRepository,
-            new Mock<ILogger<PersonsService>>().Object,
+            new Mock<ILogger<PersonsAdderService>>().Object,
             new Mock<IDiagnosticContext>().Object
         );
-
+        _personsDeleterService = new PersonsDeleterService(
+            personsRepository,
+            new Mock<ILogger<PersonsDeleterService>>().Object,
+            new Mock<IDiagnosticContext>().Object
+        );
+        _personsGetterService = new PersonsGetterService(
+            personsRepository,
+            new Mock<ILogger<PersonsGetterService>>().Object,
+            new Mock<IDiagnosticContext>().Object
+        );
+        _personsSorterService = new PersonsSorterService(
+            personsRepository,
+            new Mock<ILogger<PersonsSorterService>>().Object,
+            new Mock<IDiagnosticContext>().Object
+        );
+        _personsUpdaterService = new PersonsUpdaterService(
+            personsRepository,
+            new Mock<ILogger<PersonsUpdaterService>>().Object,
+            new Mock<IDiagnosticContext>().Object
+        );
         _testOutputHelper = testOutputHelper;
         _fixture = new Fixture();
     }
@@ -72,7 +95,7 @@ public class PersonsServiceTest
             .ReturnsAsync(expectedPerson);
         var expectedPersonResponse = expectedPerson.ToPersonResponse();
 
-        var actualPersonResponse = await _personsService.AddPerson(personAddRequest);
+        var actualPersonResponse = await _personsAdderService.AddPerson(personAddRequest);
 
         //模拟的 IPersonsRepository 返回的 expectedPerson 对象可能未正确生成 PersonId（例如使用 Guid.Empty 或固定值）。
         expectedPersonResponse.PersonId = actualPersonResponse.PersonId;
@@ -91,7 +114,7 @@ public class PersonsServiceTest
     public async Task AP_NullPersonAddResponse_ToBeArgumentNullException()
     {
         PersonAddRequest? request = null;
-        var action = async () => await _personsService.AddPerson(request);
+        var action = async () => await _personsAdderService.AddPerson(request);
         await action.Should().ThrowAsync<ArgumentException>();
     }
 
@@ -111,7 +134,7 @@ public class PersonsServiceTest
             .ReturnsAsync(expectedPerson);
 
         //act
-        var action = async () => await _personsService.AddPerson(personAddRequest);
+        var action = async () => await _personsAdderService.AddPerson(personAddRequest);
 
         //Assert
         await action.Should().ThrowAsync<ArgumentException>();
@@ -128,7 +151,7 @@ public class PersonsServiceTest
         //arrange
         Guid? personId = null;
         //act
-        var actualResponse = await _personsService.GetPersonByPersonId(personId);
+        var actualResponse = await _personsGetterService.GetPersonByPersonId(personId);
         //assert
         actualResponse.Should().BeNull();
     }
@@ -140,7 +163,7 @@ public class PersonsServiceTest
         //arrange
         Guid? personId = Guid.NewGuid();
         //act
-        var actualResponse = await _personsService.GetPersonByPersonId(personId);
+        var actualResponse = await _personsGetterService.GetPersonByPersonId(personId);
         //assert
         actualResponse.Should().BeNull();
     }
@@ -162,7 +185,7 @@ public class PersonsServiceTest
             .ReturnsAsync(person);
 
         // 调用服务层的 GetPersonByPersonId 方法
-        var actualPersonResponse = await _personsService.GetPersonByPersonId(person.PersonId);
+        var actualPersonResponse = await _personsGetterService.GetPersonByPersonId(person.PersonId);
 
         actualPersonResponse.Should().Be(expectedPersonResponse);
     }
@@ -175,7 +198,7 @@ public class PersonsServiceTest
     public async Task GAP_ServiceNullList_ToBeEmpty()
     {
         _personsRepositoryMock.Setup(p => p.GetAllPersons()).ReturnsAsync([]);
-        var emptyGet = await _personsService.GetAllPersons();
+        var emptyGet = await _personsGetterService.GetAllPersons();
         emptyGet.Should().BeEmpty();
     }
 
@@ -205,7 +228,7 @@ public class PersonsServiceTest
 
         _personsRepositoryMock.Setup(p => p.GetAllPersons()).ReturnsAsync(personList);
 
-        var actualPersonResponse = await _personsService.GetAllPersons();
+        var actualPersonResponse = await _personsGetterService.GetAllPersons();
 
         //打印输出
         _testOutputHelper.WriteLine("预期输出 开始");
@@ -260,7 +283,7 @@ public class PersonsServiceTest
             .Setup(p => p.GetFilteredPersons(It.IsAny<Expression<Func<Person, bool>>>()))
             .ReturnsAsync(personList);
 
-        var targetPersonResponse = await _personsService.GetFilteredPersons(
+        var targetPersonResponse = await _personsGetterService.GetFilteredPersons(
             nameof(Person.PersonName),
             ""
         );
@@ -302,7 +325,7 @@ public class PersonsServiceTest
             .Setup(p => p.GetFilteredPersons(It.IsAny<Expression<Func<Person, bool>>>()))
             .ReturnsAsync(personList);
 
-        var actualPersonResponse = await _personsService.GetFilteredPersons(
+        var actualPersonResponse = await _personsGetterService.GetFilteredPersons(
             nameof(Person.PersonName),
             testText
         );
@@ -353,7 +376,7 @@ public class PersonsServiceTest
 
         var personResponse = personList.Select(p => p.ToPersonResponse()).ToList();
 
-        var actualPersonResponses = await _personsService.GetSortPersons(
+        var actualPersonResponses = await _personsSorterService.GetSortPersons(
             personResponse,
             nameof(Person.PersonName),
             SortOrderOptions.DESC
@@ -372,7 +395,7 @@ public class PersonsServiceTest
     public async Task UP_NullUpdateRequest_ToBeArgumentNullException()
     {
         PersonUpdateRequest? personUpdateRequest = null;
-        var action = async () => await _personsService.UpdatePerson(personUpdateRequest);
+        var action = async () => await _personsUpdaterService.UpdatePerson(personUpdateRequest);
         await action.Should().ThrowAsync<ArgumentNullException>();
     }
 
@@ -381,7 +404,7 @@ public class PersonsServiceTest
     public async Task UP_InvalidPersonId_ToBeArgumentException()
     {
         var personUpdateRequest = _fixture.Build<PersonUpdateRequest>().Create();
-        var action = async () => await _personsService.UpdatePerson(personUpdateRequest);
+        var action = async () => await _personsUpdaterService.UpdatePerson(personUpdateRequest);
         await action.Should().ThrowAsync<ArgumentException>();
     }
 
@@ -399,7 +422,7 @@ public class PersonsServiceTest
 
         var personResponse = person.ToPersonResponse();
         var updatePersonRequest = personResponse.ToPersonUpdateRequest();
-        var action = async () => await _personsService.UpdatePerson(updatePersonRequest);
+        var action = async () => await _personsUpdaterService.UpdatePerson(updatePersonRequest);
         await action.Should().ThrowAsync<ArgumentException>();
     }
 
@@ -422,7 +445,7 @@ public class PersonsServiceTest
         _personsRepositoryMock.Setup(p => p.UpdatePerson(person)).ReturnsAsync(person);
 
         var updatePersonRequest = expectedPersonResponse.ToPersonUpdateRequest();
-        var actualPersonResponse = await _personsService.UpdatePerson(updatePersonRequest);
+        var actualPersonResponse = await _personsUpdaterService.UpdatePerson(updatePersonRequest);
 
         actualPersonResponse.Should().Be(expectedPersonResponse);
     }
@@ -435,7 +458,7 @@ public class PersonsServiceTest
     public async Task DP_NullPersonId_ToBeArgumentNullException()
     {
         Guid? guid = null;
-        var action = async () => await _personsService.DeletePerson(guid);
+        var action = async () => await _personsDeleterService.DeletePerson(guid);
         await action.Should().ThrowAsync<ArgumentNullException>();
     }
 
@@ -453,7 +476,7 @@ public class PersonsServiceTest
             .Setup(p => p.GetPersonByPersonId(person.PersonId))
             .ReturnsAsync(person);
 
-        var result = await _personsService.DeletePerson(Guid.NewGuid());
+        var result = await _personsDeleterService.DeletePerson(Guid.NewGuid());
         result.Should().BeFalse();
     }
 
@@ -476,7 +499,7 @@ public class PersonsServiceTest
             .Setup(p => p.DeletePersonByPersonId(person.PersonId))
             .ReturnsAsync(true);
 
-        var result = await _personsService.DeletePerson(personResponse.PersonId);
+        var result = await _personsDeleterService.DeletePerson(personResponse.PersonId);
         result.Should().BeTrue();
     }
 

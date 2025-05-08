@@ -84,11 +84,11 @@ public class ServersRepository
         },
     ];
 
-    public static void AddServer(Server server)
+    public static void AddServer(Server context)
     {
         var maxId = Servers.Max(s => s.ServerId);
-        server.ServerId = maxId + 1;
-        Servers.Add(server);
+        context.ServerId = maxId + 1;
+        Servers.Add(context);
     }
 
     public static List<Server> GetServer() => Servers;
@@ -119,17 +119,17 @@ public class ServersRepository
         return null;
     }
 
-    public static void UpdateServer(int serverId, Server server)
+    public static void UpdateServer(int serverId, Server context)
     {
-        if (serverId != server.ServerId)
+        if (serverId != context.ServerId)
             return;
 
         var serverToUpdate = Servers.FirstOrDefault(s => s.ServerId == serverId);
         if (serverToUpdate != null)
         {
-            serverToUpdate.IsOnline = server.IsOnline;
-            serverToUpdate.Name = server.Name;
-            serverToUpdate.City = server.City;
+            serverToUpdate.IsOnline = context.IsOnline;
+            serverToUpdate.Name = context.Name;
+            serverToUpdate.City = context.City;
         }
     }
 

@@ -1,0 +1,47 @@
+﻿@page "/browserWasm2"
+
+@rendermode InteractiveWebAssembly
+
+<h3>浏览器存储 2</h3>
+<br>
+<br>
+
+<input type="text" class="form-control" @bind-value="_data">
+<br>
+<br>
+
+<b>Data: @_data</b>
+
+@code {
+    [Inject]
+    private ContainerStorage? ContainerStorage { get; set; }
+    
+    [Inject]
+    private NavigationManager? NavigationManager { get; set; }
+    
+    [Inject]
+    private IJSRuntime? JsRuntime { get; set; }
+    
+    private string? _data = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    //此时 DOM 已经就绪，可以安全地进行 JS Interop 操作（如访问 DOM、调用 JavaScript 方法）。只会在组件生命周期中触发一次。
+    //在预渲染（Prerendering）模式下，firstRender 为 true 的情况只会在客户端 WebAssembly 完全加载后执行一次。
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // _data = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "demo-data");
+            _data = ContainerStorage?.GetMessage();
+            StateHasChanged();
+            Console.WriteLine($"FirstRender");
+        }
+
+        Console.WriteLine($"browserWasm2:{nameof(OnAfterRenderAsync)}");
+    }
+
+}

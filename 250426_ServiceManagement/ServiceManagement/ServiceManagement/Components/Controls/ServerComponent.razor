@@ -1,21 +1,94 @@
-﻿@if (Server != null)
+﻿@inject NavigationManager NavigationManager
+@inject TorontoOnlineServersStore TorontoOnlineServersStore;
+
+@if (Server != null)
 {
-  <div data-name="@Server.Name"
-       data-status="服务是@(Server.IsOnline ? "在线" : "不在线")"
-       style="color:@(Server.IsOnline ? "green" : "red")">
-    @Server.Name 在 @Server.City 是 @(Server.IsOnline ? "在线" : "不在线")
-    &nbsp;&nbsp;
-    <button type="button" class="btn btn-primary" @onclick="ChangeStatus">开/关 服务器</button>
-  </div>
+  <tr style="background-color: @GetBackgroundColor()">
+    <td>@Server.Name</td>
+    <td>@Server.City</td>
+    <td style="color:@(Server.IsOnline ? "green" : "red")">
+      @(Server.IsOnline ? "在线" : "离线")
+    </td>
+    <td>
+      @if (Server.IsOnline)
+      {
+        var random = new Random();
+        var randomNumber = random.Next(0, 10000);
+        <text>@randomNumber</text>
+      }
+      else
+      {
+        <text>N/A</text>
+      }
+    </td>
+    <td>
+      <button type="button"
+              class="btn btn-outline-@(Server.IsOnline ? "danger" : "success")"
+              @onclick="@(() => SetStateStatus(!Server.IsOnline))">@(Server.IsOnline ? "关闭" : "开启")</button>
+      &nbsp;
+      <a href="/server/@Server.ServerId" class="btn btn-outline-primary">编辑</a>
+    </td>
+    <td>
+      <EditForm Model="Server" FormName="@($"form-server-{Server.ServerId}")"
+                OnValidSubmit="@(() => { DeleteServer(Server.ServerId); })">
+        <button type="submit" class="btn btn-primary">删除</button>
+      </EditForm>
+    </td>
+  </tr>
 }
 
 @code {
-  [SupplyParameterFromForm] private Server? Server { get; set; } = new Server { Name = "Server error", City = "City error" };
+  [Parameter] public Server? Server { get; set; }
+
+  [CascadingParameter(Name = "SelectedCity")]
+  public string? SelectedCity { get; set; }
 
   private void ChangeStatus()
   {
     if (Server != null)
       Server.IsOnline = !Server.IsOnline;
+  }
+
+  private void DeleteServer(int serverId)
+  {
+    if (serverId <= 0) return;
+    ServersRepository.DeleteServer(serverId);
+    NavigationManager.NavigateTo("/servers", true);
+  }
+
+  private string GetBackgroundColor()
+  {
+    if (!string.IsNullOrEmpty(SelectedCity))
+    {
+      switch (SelectedCity)
+      {
+        case "Toronto": return "powderblue";
+        case "Montreal": return "lightgray";
+        case "Ottawa": return "palegreen";
+        case "Calgary": return "pink";
+        case "Halifax": return "white";
+        default: return string.Empty;
+      }
+    }
+    else
+    {
+      return string.Empty;
+    }
+  }
+
+  private void SetStateStatus(bool status)
+  {
+    if (Server?.City == null || Server.IsOnline == status) return;
+
+    Server.IsOnline = status;
+    if (Server.City.Equals("Toronto", StringComparison.OrdinalIgnoreCase))
+    {
+      var num = TorontoOnlineServersStore.GetNumberServersOnline();
+      if (status)
+        TorontoOnlineServersStore.SetNumbersServerOnline(num + 1);
+      else if (num > 1)
+        TorontoOnlineServersStore.SetNumbersServerOnline(num - 1);
+    }
   }
 
 }

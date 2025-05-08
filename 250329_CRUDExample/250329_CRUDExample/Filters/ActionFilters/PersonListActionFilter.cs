@@ -1,6 +1,7 @@
 ﻿using _250329_CRUDExample.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using ServiceContracts.DTO;
+using ServiceContracts.DTO.Enums;
 
 namespace _250329_CRUDExample.Filters.ActionFilters;
 
@@ -73,9 +74,13 @@ public class PersonListActionFilter(ILogger<PersonListActionFilter> logger) : IA
 
                 if (actionArguments.TryGetValue("sortBy", out var sortByObj))
                     personsController.ViewBag.CurrentSortBy = Convert.ToString(sortByObj);
+                else
+                    personsController.ViewBag.CurrentSortBy = nameof(PersonResponse.PersonName);
 
                 if (actionArguments.TryGetValue("sortOrder", out var sortOrderObj))
                     personsController.ViewBag.CurrentSortOrder = Convert.ToString(sortOrderObj);
+                else
+                    personsController.ViewBag.CurrentSortOrder = nameof(SortOrderOptions.ASC);
 
                 personsController.ViewBag.SearchFields = new Dictionary<string, string>()
                 {

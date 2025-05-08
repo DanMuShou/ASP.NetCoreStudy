@@ -1,118 +1,72 @@
 ﻿@page "/servers"
+@page "/servers/back_from/{cityName}"
 
 @rendermode InteractiveServer
-@inject NavigationManager NavigationManager
+
+@inject NavigationManager NavigationManager;
+@inject TorontoOnlineServersStore TorontoOnlineServersStore;
+
 
 <h3>Servers</h3>
 <br>
 <br>
 
-<div class="container-fluid text-center">
-    <div class="row w-50">
-        @foreach (var city in _cities)
-        {
-            <div class="col">
-                <div
-                    class="card @(_selectedCity.Equals(city, StringComparison.OrdinalIgnoreCase) ? "border-primary" : "")">
-                    <img src="images/@(city).png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <button class="btn btn-primary" @onclick="@(() => { SelectCity(city); })"
-                                type="button">@city</button>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</div>
-
-<br>
-<div class="input-group mb-3">
-    <input class="form-control" placeholder="选择服务器" type="text" @bind-value="ServerFilter"
-           @bind-value:event="oninput"/>
-    <button class="btn btn-outline-secondary" type="button" id="button-search" @onclick="HandelServerSearch">搜索
-    </button>
-</div>
-
+<CityListComponent SelectCityCallback="HandelCitySelection"
+                   SelectedCity="@_selectCity"
+                   @ref="_cityListComponent"></CityListComponent>
 <br>
 
-<ul>
-    <Virtualize Items="_servers" Context="server">
-        <li @key="server.ServerId">
-            @server.Name 在 @server.City 是
-            <span style="color:@(server.IsOnline ? "green" : "red")">
-                @(server.IsOnline ? "在线" : "离线")
-            </span>
-            <a href="/servers/@server.ServerId" class="btn btn-link">编辑</a>
-            &nbsp;
-            <EditForm Model="server" FormName="@($"form-server-{server.ServerId}")"
-                      OnValidSubmit="@(() => { @DeleteServer(server.ServerId); })">
-                <button type="submit" class="btn btn-primary">删除</button>
-            </EditForm>
-        </li>
-    </Virtualize>
+<SearchBarComponent SearchServerCallback="HandelSearchServer"
+                    @ref="_searchBarComponent"></SearchBarComponent>
+<br>
 
-</ul>
+@* 允许父组件将值自动“广播”给所有子组件，简化跨层级通信。 *@
+<CascadingValue Name="SelectedCity" Value="@_selectCity">
+    <ServerListComponent CityName="@_selectCity"
+                         SearchFilter="@_serverFilter"></ServerListComponent>
+</CascadingValue>
 
 <p>
-    <a href="/servers/add" class="btn btn-primary">添加服务器</a>
-</p>
-
-<p>
-    <button class="btn btn-secondary"
-            @onclick="@(() => { _servers.Insert(0, new Server() { Name = "Server add", City = "City add" }); })">添加服务器
-        2
-    </button>
+    <a href="/serverName" class="btn btn-primary">添加服务器</a>
 </p>
 
 @code {
-    private List<Server> _servers = ServersRepository.GetServersByCity("Toronto");
-    private readonly List<string> _cities = CitiesRepository.GetCities();
+    [Parameter]
+    public string? CityName { get; set; }
+    
+    private string _selectCity = "Toronto";
+    private string _serverFilter = string.Empty;
 
-    private string _selectedCity = "Toronto";
+    private CityListComponent? _cityListComponent;
+    private SearchBarComponent? _searchBarComponent;
 
-    private string _serverFilter = "";
-
-    private string ServerFilter
+    private void HandelCitySelection(string cityName)
     {
-        get => _serverFilter;
-        set
-        {
-            _serverFilter = value;
-            _servers = ServersRepository.SearchServers(_serverFilter);
-        }
+        _selectCity = cityName;
+        _serverFilter = string.Empty;
+        _searchBarComponent?.ClearFilter();
     }
 
-    private void DeleteServer(int serverId)
+    private void HandelSearchServer(string serverFilter)
     {
-        if (serverId <= 0) return;
-        ServersRepository.DeleteServer(serverId);
-        _servers = ServersRepository.GetServersByCity(_selectedCity);
-        NavigationManager.Refresh();
+        _serverFilter = serverFilter;
+        _selectCity = string.Empty;
+        _cityListComponent?.ClearSelection();
     }
 
-    private void SelectCity(string cityName)
+    protected override void OnAfterRender(bool firstRender)
     {
-        _selectedCity = cityName;
-        _servers = ServersRepository.GetServersByCity(_selectedCity);
-
-        if (cityName == "Halifax")
+        if (firstRender)
         {
-            for (var i = 14; i < 2000; i++)
+            if (NavigationManager.Uri.Contains("back_from") && !string.IsNullOrWhiteSpace(CityName))
             {
-                _servers.Add(new Server() { ServerId = i, Name = $"Server{i}", City = "Halifax" });
+                _selectCity = CityName;
+                StateHasChanged();
             }
+
+            var serversToronto = ServersRepository.GetServersByCity("Toronto");
+            TorontoOnlineServersStore.SetNumbersServerOnline((serversToronto.Count(s => s.IsOnline)));
         }
-    }
-
-    //在用户完成输入并离开输入框时触发
-    private void HandleServerFilterChanged(ChangeEventArgs args)
-    {
-        ServerFilter = args.Value?.ToString() ?? string.Empty;
-    }
-
-    private void HandelServerSearch()
-    {
-        _selectedCity = string.Empty;
     }
 
 }

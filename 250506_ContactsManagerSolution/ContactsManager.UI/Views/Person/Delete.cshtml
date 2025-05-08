@@ -1,0 +1,70 @@
+﻿@model PersonResponse
+
+@{
+    ViewBag.Title = "删除人员信息";
+}
+
+<div class="flex">
+    <div class="flex-1">
+        <div class="text-grey">
+            <span>Contacts</span>
+            <i class="fa-solid fa-caret-right"></i>
+            <span class="text-grey">Persons</span>
+            <i class="fa-solid fa-caret-right"></i>
+            <span class="text-grey">Delete</span>
+        </div>
+    </div>
+</div>
+
+<div class="form-container">
+
+    <a asp-controller="Person" asp-action="Home" class="link-hover">返回主页</a>
+    <h2 class="text-large">Delete Person</h2>
+    <h3>Are you sure to delete this person?</h3>
+
+    <form asp-controller="Person" asp-action="Delete" method="post">
+
+        <input type="hidden" asp-for="PersonId"/>
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="PersonName" class="form-label pt">名称</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="PersonName" class="form-input" disabled="disabled"/>
+                <span asp-validation-for="PersonName" class="text-red"></span>
+            </div>
+        </div>
+
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="Email" class="form-label pt">邮箱</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="Email" class="form-input" disabled="disabled"/>
+                <span asp-validation-for="Email" class="text-red"></span>
+            </div>
+        </div>
+
+        <div class="form-field flex">
+            <div class="w-25">
+            </div>
+            <div class="flex-1">
+                <button class="button button-red-back">删除</button>
+
+                <div asp-validation-summary="All" class="text-red"></div>
+
+                @if (ViewBag.Errors != null)
+                {
+                    <div class="text-red ml">
+                        <ul>
+                            @foreach (string error in ViewBag.Errors)
+                            {
+                                <li class="ml">@error</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+</div>

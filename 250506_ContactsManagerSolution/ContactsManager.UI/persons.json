@@ -1,0 +1,112 @@
+﻿[
+  {
+    "PersonId": "7B2A5666-509D-D753-6D7F-30BDF2C94A14",
+    "PersonName": "Emily Johnson",
+    "Email": "emily.johnson@gmail.com",
+    "DateOfBirth": "1985-03-22",
+    "Gender": "Female",
+    "CountryId": "084F5F6E-C45A-A1E5-A728-8B63AA7E0518",
+    "Address": "New York",
+    "ReceiveNewsLetters": true
+  },
+  {
+    "PersonId": "39D2E021-9D48-77A0-A5B0-C7C28163A022",
+    "PersonName": "Michael Brown",
+    "Email": "michael.b@yahoo.com",
+    "DateOfBirth": "1992-11-05",
+    "Gender": "Male",
+    "CountryId": "8206FA09-CFA7-AD82-6D7A-2D9D4211A7E7",
+    "Address": "Toronto",
+    "ReceiveNewsLetters": false
+  },
+  {
+    "PersonId": "44BCAE59-6DF2-137E-8606-4ADE5351DFF4",
+    "PersonName": "Sophie Martin",
+    "Email": "sophie.m@outlook.com",
+    "DateOfBirth": "1978-07-14",
+    "Gender": "Female",
+    "CountryId": "72F28341-C912-18B2-2D5D-AF0FA1391DDA",
+    "Address": "Paris",
+    "ReceiveNewsLetters": true
+  },
+  {
+    "PersonId": "5E0F1C84-5719-5EF4-6BC9-DC7147BC1FED",
+    "PersonName": "Liam Müller",
+    "Email": "liam.mueller@proton.me",
+    "DateOfBirth": "2000-09-30",
+    "Gender": "Male",
+    "CountryId": "A1FBB6A1-2E88-3F95-D893-1BDA125D06BE",
+    "Address": "Berlin",
+    "ReceiveNewsLetters": true
+  },
+  {
+    "PersonId": "452F18CE-28E7-1719-F967-83507A0C26D1",
+    "PersonName": "Aiko Tanaka",
+    "Email": "aiko.t@mail.jp",
+    "DateOfBirth": "1995-12-12",
+    "Gender": "Female",
+    "CountryId": "8206FA09-CFA7-AD82-6D7A-2D9D4211A7E7",
+    "Address": "Osaka",
+    "ReceiveNewsLetters": false
+  },
+  {
+    "PersonId": "1BF25FD6-FA33-8D35-D09D-9D29CB71AB4D",
+    "PersonName": "Daniel Wilson",
+    "Email": "daniel.w@icloud.com",
+    "DateOfBirth": "1988-04-18",
+    "Gender": "Male",
+    "CountryId": "A1FBB6A1-2E88-3F95-D893-1BDA125D06BE",
+    "Address": "Chicago",
+    "ReceiveNewsLetters": true
+  },
+  {
+    "PersonId": "3C8EB801-06F6-565F-EB2B-1732C2DD990D",
+    "PersonName": "Emma Davis",
+    "Email": "emma_davis@workmail.com",
+    "DateOfBirth": "2002-01-09",
+    "Gender": "Female",
+    "CountryId": "72F28341-C912-18B2-2D5D-AF0FA1391DDA",
+    "Address": "Vancouver",
+    "ReceiveNewsLetters": false
+  },
+  {
+    "PersonId": "306DD088-B781-C200-9C34-89F2BBB439FB",
+    "PersonName": "Lucas Dupont",
+    "Email": "lucas.dupont@mail.fr",
+    "DateOfBirth": "1999-08-25",
+    "Gender": "Male",
+    "CountryId": "084F5F6E-C45A-A1E5-A728-8B63AA7E0518",
+    "Address": "Lyon",
+    "ReceiveNewsLetters": true
+  },
+  {
+    "PersonId": "C4EC3A97-4FA4-9B2A-1CE1-56F38EA98E6D",
+    "PersonName": "Clara Fischer",
+    "Email": "clara.f@web.de",
+    "DateOfBirth": "1982-06-07",
+    "Gender": "Female",
+    "CountryId": "72F28341-C912-18B2-2D5D-AF0FA1391DDA",
+    "Address": "Munich",
+    "ReceiveNewsLetters": false
+  },
+  {
+    "PersonId": "8803183F-5B24-C665-90DF-E090D8C30E39",
+    "PersonName": "Hiroshi Sato",
+    "Email": "hiroshi.s@company.jp",
+    "DateOfBirth": "1975-10-31",
+    "Gender": "Male",
+    "CountryId": "084F5F6E-C45A-A1E5-A728-8B63AA7E0518",
+    "Address": "Kyoto",
+    "ReceiveNewsLetters": true
+  },
+  {
+    "PersonId": "7A2FAD64-37DF-1B92-62A0-0BBFD0BE90D1",
+    "PersonName": "Olivia White",
+    "Email": "oliviaw@fastmail.com",
+    "DateOfBirth": "1993-02-14",
+    "Gender": "Female",
+    "CountryId": "A1FBB6A1-2E88-3F95-D893-1BDA125D06BE",
+    "Address": "San Francisco",
+    "ReceiveNewsLetters": true
+  }
+]

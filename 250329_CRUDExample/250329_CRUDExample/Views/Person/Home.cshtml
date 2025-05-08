@@ -4,19 +4,32 @@
     ViewBag.Title = "人员";
 }
 
-<!DOCTYPE html>
-
 <form asp-controller="Person" asp-action="Home" method="get">
-    <div>
-        <h1>人员</h1>
-        <a asp-action="Create" asp-controller="Person">创建人员</a>
-        <a asp-controller="Person" asp-action="PersonsPdf" class="ml">下载信息(PDF)</a>
-        <a asp-controller="Person" asp-action="PersonsCsv" class="ml">下载信息(CSV)</a>
-        <a asp-controller="Person" asp-action="PersonsExcel" class="ml">下载信息(Excel)</a>
-        
-        <div class="box flex">
+    <div class="flex">
+        <div class="flex-1">
+            <div class="text-grey">
+                <span>Contacts</span>
+                <i class="fa-solid fa-caret-right"></i>
+                <span class="text-grey">Persons</span>
+            </div>
+        </div>
+        <div class="flex-1 text-right">
+            <a asp-controller="Person" asp-action="Create" class="button-link button-blue-back">创建人员</a>
+            <a asp-controller="Person" asp-action="PersonsPDF" class="button-link button-blue-back ml">下载(PDF)</a>
+            <a asp-controller="Person" asp-action="PersonsCSV" class="button-link button-blue-back ml">下载(CSV)</a>
+            <a asp-controller="Person" asp-action="PersonsExcel"
+               class="button-link button-blue-back ml">下载(Excel)</a>
+        </div>
+    </div>
+    <div class="table-container">
+        <div class="flex">
             <div class="flex-1">
-                <select class="form-input" name="searchBy">
+                <h1>Persons</h1>
+            </div>
+            <div class="flex-3 text-right">
+                <label>Search by:</label>
+                <select class="search-dropdown" name="searchBy" style="width: 200px">
+
                     @foreach (var field in ViewBag.SearchFields)
                     {
                         if (field.Key == ViewBag.CurrentSearchBy)
@@ -30,97 +43,88 @@
                     }
                     @* Eg : searchBy = PersonName & searchString = (abc?) *@
                 </select>
-            </div>
+                <input type="search" id="Search" class="search-text" placeholder="Search" name="searchString"
+                       value="@ViewBag.CurrentSearchString" style="width:200px"/>
 
-            <div class="flex-1">
-                <input type="search" id="Search" class="form-input" placeholder="Search" name="searchString"
-                    value="@ViewBag.CurrentSearchString" />
-            </div>
+                <button class="search-button">查询</button>
 
-            <div class="flex-1">
-                <button class="button button-blue-back"> 查 询 </button>
-                <a class="link-hover"
-                   asp-controller="Person" 
-                   asp-action="Home" 
-                    > 清 除 
-                </a>
+                <a asp-controller="Person" asp-action="Home" class="ml link-hover">清除</a>
             </div>
-
         </div>
-
-        <table class="table w-100 mt persons">
-            <thead>
-                <tr>
-                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
-                    {
-                        { "ColumnName", nameof(PersonResponse.PersonName) },
-                        { "DisplayName", "人员名称" }
-                    })
-                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
-                    {
-                        { "ColumnName", nameof(PersonResponse.Email) },
-                        { "DisplayName", "Email" }
-                    })
-                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
-                    {
-                        { "ColumnName", nameof(PersonResponse.DateOfBirth) },
-                        { "DisplayName", "出生日期" }
-                    })
-                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
-                    {
-                        { "ColumnName", nameof(PersonResponse.Age) },
-                        { "DisplayName", "年龄" }
-                    })
-                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
-                    {
-                        { "ColumnName", nameof(PersonResponse.Gender) },
-                        { "DisplayName", "性别" }
-                    })
-                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
-                    {
-                        { "ColumnName", nameof(PersonResponse.CountryName) },
-                        { "DisplayName", "国家" }
-                    })
-                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
-                    {
-                        { "ColumnName", nameof(PersonResponse.Address) },
-                        { "DisplayName", "地址" }
-                    })
-                    @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
-                    {
-                        { "ColumnName", nameof(PersonResponse.ReceiveNewsLetters) },
-                        { "DisplayName", "新闻订阅" }
-                    })
-                    
-                    <th style="white-space: nowrap"> 操作 </th>
-                 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var personResponse in Model)
-                {
-                    <tr>
-                        <td style="width: 15%">@personResponse.PersonName</td>
-                        <td style="width: 20%">@personResponse.Email</td>
-                        <td style="width: 13%">@personResponse.DateOfBirth?.ToString("yyyy-MM-dd")</td>
-                        <td style="width: 9%">@personResponse.Age</td>
-                        <td style="width: 9%">@personResponse.Gender</td>
-                        <td style="width: 10%">@personResponse.CountryName</td>
-                        <td style="width: 10%">@personResponse.Address</td>
-                        <td style="width: 20%">@personResponse.ReceiveNewsLetters</td>
-                        <td style="width:20%">
-                            <a asp-controller="Person" asp-action="Edit"
-                               asp-route-personId="@personResponse.PersonId"
-                            >编辑
-                            </a>
-                            <a asp-controller="Person" asp-action="Delete"
-                               asp-route-personId="@personResponse.PersonId"
-                            >删除
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
     </div>
+
+    <table class="table w-100 mt persons">
+        <thead>
+        <tr>
+            @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+            {
+                { "ColumnName", nameof(PersonResponse.PersonName) },
+                { "DisplayName", "人员名称" }
+            })
+            @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+            {
+                { "ColumnName", nameof(PersonResponse.Email) },
+                { "DisplayName", "Email" }
+            })
+            @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+            {
+                { "ColumnName", nameof(PersonResponse.DateOfBirth) },
+                { "DisplayName", "出生日期" }
+            })
+            @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+            {
+                { "ColumnName", nameof(PersonResponse.Age) },
+                { "DisplayName", "年龄" }
+            })
+            @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+            {
+                { "ColumnName", nameof(PersonResponse.Gender) },
+                { "DisplayName", "性别" }
+            })
+            @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+            {
+                { "ColumnName", nameof(PersonResponse.CountryName) },
+                { "DisplayName", "国家" }
+            })
+            @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+            {
+                { "ColumnName", nameof(PersonResponse.Address) },
+                { "DisplayName", "地址" }
+            })
+            @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
+            {
+                { "ColumnName", nameof(PersonResponse.ReceiveNewsLetters) },
+                { "DisplayName", "新闻订阅" }
+            })
+
+            <th style="white-space: nowrap"> 操作</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var personResponse in Model)
+        {
+            <tr>
+                <td style="width: 10%">@personResponse.PersonName</td>
+                <td style="width: 20%">@personResponse.Email</td>
+                <td style="width: 10%">@personResponse.DateOfBirth?.ToString("yyyy-MM-dd")</td>
+                <td style="width: 6%">@personResponse.Age</td>
+                <td style="width: 8%">@personResponse.Gender</td>
+                <td style="width: 10%">@personResponse.CountryName</td>
+                <td style="width: 15%">@personResponse.Address</td>
+                <td style="width: 8%">@personResponse.ReceiveNewsLetters</td>
+                <td style="width:20%">
+                    <a class="button-link button-blue-back"
+                       asp-controller="Person" asp-action="Edit"
+                       asp-route-personId="@personResponse.PersonId">编辑
+                    </a>
+                    <a class="button-link button-red-back"
+                       asp-controller="Person" asp-action="Delete"
+                       asp-route-personId="@personResponse.PersonId">删除
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 </form>

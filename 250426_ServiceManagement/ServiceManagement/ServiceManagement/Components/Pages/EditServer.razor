@@ -2,6 +2,10 @@
 
 @* 用于从 Blazor 的依赖注入（DI）容器中获取 NavigationManager 服务。 *@
 @inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime
+
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"
+                ConfirmExternalNavigation="true"></NavigationLock>
 
 <h3>Edit Server</h3>
 <br/>
@@ -14,46 +18,42 @@
 
         <InputNumber @bind-Value="Server.ServerId" hidden=""></InputNumber>
 
-        <div class="row mb-3">
-            <div class="col-2">
-                <label class="col-form-label">名称</label>
-            </div>
-            <div class="col-6">
+        <ValidationSummary></ValidationSummary>
+
+        <FieldComponent Label="名称">
+            <Control>
                 <InputText @bind-Value="Server.Name" class="form-control"></InputText>
-            </div>
-            <div class="col">
+            </Control>
+            <ValidationControl>
                 <ValidationMessage For="() => Server.Name"></ValidationMessage>
-            </div>
-        </div>
+            </ValidationControl>
+        </FieldComponent>
 
-        <div class="row mb-3">
-            <div class="col-2">
-                <label class="col-form-label">城市</label>
-            </div>
-            <div class="col-6">
+        <FieldComponent Label="城市">
+            <Control>
                 <InputText @bind-Value="Server.City" class="form-control"></InputText>
-            </div>
-            <div class="col">
+            </Control>
+            <ValidationControl>
                 <ValidationMessage For="() => Server.City"></ValidationMessage>
-            </div>
-        </div>
+            </ValidationControl>
+        </FieldComponent>
 
         <div class="row mb-3">
             <div class="col-2">
-                <label class="col-form-label">在线</label>
+                <label class="col-form-label">服务器状态</label>
             </div>
-            <div class="col-6">
-                <InputCheckbox @bind-Value="Server.IsOnline" class="form-check-input"></InputCheckbox>
+            <div class="col-6 input-width">
+                <InputCheckbox @bind-Value="@Server.IsOnline" class="form-check-input"></InputCheckbox>
             </div>
         </div>
+
 
         <br>
         <button class="btn btn-primary" type="submit">更新</button>
         &nbsp;
         <a href="/servers" class="btn btn-primary">关闭</a>
 
-        <ValidationSummary></ValidationSummary>
-        
+
     </EditForm>
 }
 <br>
@@ -85,7 +85,16 @@
             ServersRepository.UpdateServer(Server.ServerId, Server);
         }
 
-        NavigationManager.NavigateTo("/servers");
+        NavigationManager.NavigateTo($"/servers/back_from/{Server?.City}");
+    }
+
+    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        var result = await JSRuntime.InvokeAsync<bool>("confirm", "你想要离开这个页面吗");
+        if (!result)
+        {
+            context.PreventNavigation();
+        }
     }
 
 }

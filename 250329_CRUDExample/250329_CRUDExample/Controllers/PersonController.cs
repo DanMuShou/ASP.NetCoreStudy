@@ -18,11 +18,17 @@ namespace _250329_CRUDExample.Controllers;
 [ResponseHeaderFilterFactory("My-Key-Controller1", "My-Value-Controller1", 3)]
 [TypeFilter<HandleExceptionFilter>]
 [TypeFilter<PersonAlwaysRunResultFilter>]
-public class PersonController(IPersonsService personsService, ICountriesService countriesService)
-    : Controller
+public class PersonController(
+    IPersonsAdderService personsAdderService,
+    IPersonsDeleterService personsDeleterService,
+    IPersonsGetterService personsGetterService,
+    IPersonsSorterService personsSorterService,
+    IPersonsUpdaterService personsUpdaterService,
+    ICountriesService countriesService
+) : Controller
 {
     [HttpGet]
-    [HttpGet("/")]
+    [Route("/")]
     [ServiceFilter(typeof(PersonListActionFilter), Order = 4)]
     // [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = ["My-Key-Action1", "My-Value-Action1", 4],Order = 4 // 显式设置 Order)]
     // [ResponseHeaderActionFilter("My-Key-Action1", "My-Value-Action1", 4)]
@@ -36,13 +42,13 @@ public class PersonController(IPersonsService personsService, ICountriesService 
         SortOrderOptions sortOrder = SortOrderOptions.ASC
     )
     {
-        var filterPersonResponseList = await personsService.GetFilteredPersons(
+        var filterPersonResponseList = await personsGetterService.GetFilteredPersons(
             searchBy,
             searchString
         );
 
         //Sort
-        var filterSortPersonResponseList = await personsService.GetSortPersons(
+        var filterSortPersonResponseList = await personsSorterService.GetSortPersons(
             filterPersonResponseList,
             sortBy,
             sortOrder
@@ -76,7 +82,7 @@ public class PersonController(IPersonsService personsService, ICountriesService 
     [TypeFilter(typeof(FeatureDisableResourceFilter), Arguments = [false])]
     public async Task<IActionResult> Create(PersonAddRequest personRequest)
     {
-        await personsService.AddPerson(personRequest);
+        await personsAdderService.AddPerson(personRequest);
         return RedirectToAction("Home", "Person");
     }
 
@@ -84,7 +90,7 @@ public class PersonController(IPersonsService personsService, ICountriesService 
     [TypeFilter<TokenResultFilter>]
     public async Task<IActionResult> Edit(Guid personId)
     {
-        var targetPersonResponse = await personsService.GetPersonByPersonId(personId);
+        var targetPersonResponse = await personsGetterService.GetPersonByPersonId(personId);
         if (targetPersonResponse == null)
         {
             return RedirectToAction("Home", "Person");
@@ -107,20 +113,20 @@ public class PersonController(IPersonsService personsService, ICountriesService 
     [TypeFilter<PersonCreatAndEditPostActionFilter>]
     public async Task<IActionResult> Edit(Guid personId, PersonUpdateRequest personRequest)
     {
-        var targetPersonResponse = await personsService.GetPersonByPersonId(personId);
+        var targetPersonResponse = await personsGetterService.GetPersonByPersonId(personId);
         if (targetPersonResponse == null)
         {
             return RedirectToAction("Home", "Person");
         }
 
-        await personsService.UpdatePerson(personRequest);
+        await personsUpdaterService.UpdatePerson(personRequest);
         return RedirectToAction("Home", "Person");
     }
 
     [HttpGet("{personId:guid}")]
     public async Task<IActionResult> Delete(Guid? personId)
     {
-        var deletePersonResponse = await personsService.GetPersonByPersonId(personId);
+        var deletePersonResponse = await personsGetterService.GetPersonByPersonId(personId);
         if (deletePersonResponse == null)
         {
             return RedirectToAction("Home", "Person");
@@ -132,20 +138,20 @@ public class PersonController(IPersonsService personsService, ICountriesService 
     [HttpPost("{personId:guid}")]
     public async Task<IActionResult> Delete(Guid personId, PersonUpdateRequest personUpdateRequest)
     {
-        var deletePersonResponse = await personsService.GetPersonByPersonId(personId);
+        var deletePersonResponse = await personsGetterService.GetPersonByPersonId(personId);
         if (deletePersonResponse == null)
         {
             return RedirectToAction("Home", "Person");
         }
 
-        await personsService.DeletePerson(personId);
+        await personsDeleterService.DeletePerson(personId);
         return RedirectToAction("Home", "Person");
     }
 
     [HttpGet]
     public async Task<IActionResult> PersonsPdf()
     {
-        var allPersonList = await personsService.GetAllPersons();
+        var allPersonList = await personsGetterService.GetAllPersons();
         return new ViewAsPdf("PersonsPdf", allPersonList, ViewData)
         {
             PageMargins = new Margins(20, 20, 20, 20),
@@ -156,7 +162,7 @@ public class PersonController(IPersonsService personsService, ICountriesService 
     [HttpGet]
     public async Task<IActionResult> PersonsCsv()
     {
-        var memoryStream = await personsService.GetPersonCsv();
+        var memoryStream = await personsGetterService.GetPersonCsv();
         //指定MIME类型为二进制流 表示文件内容为未知类型 强制浏览器以下载方式处理（而非直接打开）
         return File(memoryStream, "application/octet-stream", "Person.csv");
     }
@@ -164,7 +170,7 @@ public class PersonController(IPersonsService personsService, ICountriesService 
     [HttpGet]
     public async Task<IActionResult> PersonsExcel()
     {
-        var memoryStream = await personsService.GetPersonExcel();
+        var memoryStream = await personsGetterService.GetPersonExcel();
         return File(
             memoryStream,
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

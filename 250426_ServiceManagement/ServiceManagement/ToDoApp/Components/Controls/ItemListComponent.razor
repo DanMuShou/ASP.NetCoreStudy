@@ -1,0 +1,15 @@
+﻿
+@if (Items is { Count: > 0 })
+{
+    <ul class="list-unstyled">
+        @foreach (var item in Items)
+        {
+            <ItemComponent Item="item"></ItemComponent>
+        }
+    </ul>
+}
+
+
+@code {
+    [Parameter] public List<ToDoItem>? Items { get; set; }
+}

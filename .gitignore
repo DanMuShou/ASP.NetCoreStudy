@@ -99,3 +99,6 @@
 **/*.testlog
 **/xunit-*.xml
 **/nunit-*.xml
+*.png
+*.map
+*.css

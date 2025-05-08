@@ -1,0 +1,90 @@
+﻿<table class="table table-striped">
+    <RepeaterComponent Items="_servers">
+        <Header>
+            <thead>
+            <tr>
+                <th>名称</th>
+                <th>城市</th>
+                <th>状态</th>
+                <th>在线人数</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+        </Header>
+        <Row Context="server">
+            <ServerComponent Server="@server"></ServerComponent>
+        </Row>
+    </RepeaterComponent>
+</table>
+
+<br>
+<button type="button" class="btn btn-primary" @onclick="@(() => { })">刷新</button>
+<br>
+<br>
+
+@code {
+
+    [Parameter] public string? CityName { get; set; }
+    [Parameter] public string SearchFilter { get; set; } = string.Empty;
+
+    private List<Server>? _servers;
+
+    private System.Threading.Timer? _timer;
+
+    // 优化性能 先进行判断有没有进行参数改变 在决定是否想服务器发送请求
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        if (parameters.TryGetValue<string>(nameof(CityName), out var cityName))
+        {
+            if (cityName != CityName)
+            {
+                return base.SetParametersAsync(parameters);
+            }
+        }
+
+        if (parameters.TryGetValue<string>(nameof(SearchFilter), out var searchFilter))
+        {
+            if (searchFilter != SearchFilter)
+            {
+                return base.SetParametersAsync(parameters);
+            }
+        }
+
+        return Task.CompletedTask;
+    }
+
+    protected override void OnParametersSet()
+    {
+        _servers = string.IsNullOrEmpty(SearchFilter)
+            ? ServersRepository.GetServersByCity(CityName ?? "Toronto")
+            : ServersRepository.SearchServers(SearchFilter);
+
+        Console.WriteLine("OnParametersSet");
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (firstRender)
+        {
+            if (string.IsNullOrWhiteSpace(SearchFilter))
+            {
+            }
+            else
+            {
+                CityName = string.Empty;
+            }
+
+            StateHasChanged();
+            _timer = new Timer(_ => { base.InvokeAsync(StateHasChanged); }, null, 2000, 2000);
+        }
+    }
+    
+    public void Dispose()
+    {
+        _timer?.Change(Timeout.Infinite, Timeout.Infinite);
+        _timer?.Dispose();
+    }
+}

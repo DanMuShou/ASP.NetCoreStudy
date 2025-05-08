@@ -1,0 +1,34 @@
+﻿@page "/toDoList"
+
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager;
+
+<h3>待办事项</h3>
+<br>
+
+<button type="button" class="btn btn-primary" @onclick="AddTask">添加</button>
+
+<br>
+<br>
+
+@if (_items is { Count: > 0 })
+{
+    <ul class="list-unstyled">
+        <ItemListComponent Items="_items"></ItemListComponent>
+    </ul>
+}
+
+@code {
+    private List<ToDoItem> _items = ToDoItemsRepository.GetItems();
+
+    private void AddTask()
+    {
+        ToDoItemsRepository.AddItem(new ToDoItem()
+        {
+            Name = "待办事项 New"
+        });
+        _items = ToDoItemsRepository.GetItems();
+    }
+
+}

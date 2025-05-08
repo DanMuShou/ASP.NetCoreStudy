@@ -1,0 +1,26 @@
+﻿
+<div class="input-group mb-3 input-width">
+    <input class="form-control" placeholder="选择服务器" type="text" @bind-value="_serverFilter"
+           @bind-value:event="oninput"/>
+    <button class="btn btn-outline-secondary" 
+            type="button" 
+            id="button-search" 
+            @onclick="HandelServerSearch">搜索
+    </button>
+</div>
+
+@code {
+    [Parameter] public EventCallback<string> SearchServerCallback { get; set; }
+
+    public void ClearFilter()
+    {
+        _serverFilter = string.Empty;
+    }
+    
+    private string _serverFilter = string.Empty;
+
+    private void HandelServerSearch()
+    {
+        SearchServerCallback.InvokeAsync(_serverFilter);
+    }
+}

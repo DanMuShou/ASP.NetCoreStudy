@@ -3,30 +3,48 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.Enums;
-using Services;
 
 namespace CRUDTests;
 
 public class PersonsControllerTest
 {
-    private readonly IPersonsService _personsService;
+    private readonly IPersonsAdderService _personsAdderService;
+    private readonly IPersonsDeleterService _personsDeleterService;
+    private readonly IPersonsGetterService _personsGetterService;
+    private readonly IPersonsSorterService _personsSorterService;
+    private readonly IPersonsUpdaterService _personsUpdaterService;
+
     private readonly ICountriesService _countriesService;
 
-    private readonly Mock<IPersonsService> _personsServiceMock;
+    private Mock<IPersonsAdderService> _personsAdderServiceMock;
+    private Mock<IPersonsDeleterService> _personsDeleterServiceMock;
+    private Mock<IPersonsGetterService> _personsGetterServiceMock;
+    private Mock<IPersonsSorterService> _personsSorterServiceMock;
+    private Mock<IPersonsUpdaterService> _personsUpdaterServiceMock;
+
     private readonly Mock<ICountriesService> _countriesServiceMock;
 
     private readonly Fixture _fixture;
 
     public PersonsControllerTest()
     {
-        _personsServiceMock = new Mock<IPersonsService>();
+        _personsAdderServiceMock = new Mock<IPersonsAdderService>();
+        _personsDeleterServiceMock = new Mock<IPersonsDeleterService>();
+        _personsGetterServiceMock = new Mock<IPersonsGetterService>();
+        _personsSorterServiceMock = new Mock<IPersonsSorterService>();
+        _personsUpdaterServiceMock = new Mock<IPersonsUpdaterService>();
+
         _countriesServiceMock = new Mock<ICountriesService>();
 
-        _personsService = _personsServiceMock.Object;
+        _personsAdderService = _personsAdderServiceMock.Object;
+        _personsDeleterService = _personsDeleterServiceMock.Object;
+        _personsGetterService = _personsGetterServiceMock.Object;
+        _personsSorterService = _personsSorterServiceMock.Object;
+        _personsUpdaterService = _personsUpdaterServiceMock.Object;
+
         _countriesService = _countriesServiceMock.Object;
 
         _fixture = new Fixture();
@@ -38,12 +56,19 @@ public class PersonsControllerTest
     public async Task H_ShouldReturnHomeViewWithPersonList()
     {
         var personResponse = _fixture.Create<List<PersonResponse>>();
-        var personController = new PersonController(_personsService, _countriesService);
+        var personController = new PersonController(
+            _personsAdderService,
+            _personsDeleterService,
+            _personsGetterService,
+            _personsSorterService,
+            _personsUpdaterService,
+            _countriesService
+        );
 
-        _personsServiceMock
+        _personsGetterServiceMock
             .Setup(p => p.GetFilteredPersons(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(personResponse);
-        _personsServiceMock
+        _personsSorterServiceMock
             .Setup(p =>
                 p.GetSortPersons(personResponse, It.IsAny<string>(), It.IsAny<SortOrderOptions>())
             )
@@ -74,9 +99,18 @@ public class PersonsControllerTest
         var countryList = _fixture.Create<List<CountryResponse>>();
 
         _countriesServiceMock.Setup(c => c.GetAllCountries()).ReturnsAsync(countryList);
-        _personsServiceMock.Setup(p => p.AddPerson(personAddRequest)).ReturnsAsync(personResponse);
+        _personsAdderServiceMock
+            .Setup(p => p.AddPerson(personAddRequest))
+            .ReturnsAsync(personResponse);
 
-        var personController = new PersonController(_personsService, _countriesService);
+        var personController = new PersonController(
+            _personsAdderService,
+            _personsDeleterService,
+            _personsGetterService,
+            _personsSorterService,
+            _personsUpdaterService,
+            _countriesService
+        );
 
         personController.ModelState.AddModelError("测试错误", "Error------");
 
@@ -96,9 +130,18 @@ public class PersonsControllerTest
         var countryList = _fixture.Create<List<CountryResponse>>();
 
         _countriesServiceMock.Setup(c => c.GetAllCountries()).ReturnsAsync(countryList);
-        _personsServiceMock.Setup(p => p.AddPerson(personAddRequest)).ReturnsAsync(personResponse);
+        _personsAdderServiceMock
+            .Setup(p => p.AddPerson(personAddRequest))
+            .ReturnsAsync(personResponse);
 
-        var personController = new PersonController(_personsService, _countriesService);
+        var personController = new PersonController(
+            _personsAdderService,
+            _personsDeleterService,
+            _personsGetterService,
+            _personsSorterService,
+            _personsUpdaterService,
+            _countriesService
+        );
 
         var result = await personController.Create(personAddRequest);
         //重定向结果

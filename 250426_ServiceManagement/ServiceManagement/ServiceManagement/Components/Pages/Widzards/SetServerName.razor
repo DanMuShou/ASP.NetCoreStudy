@@ -1,0 +1,59 @@
+﻿@page "/serverName"
+
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager;
+@inject ContainerStorage ContainerStorage;
+
+<h3>服务器名称</h3>
+<br/>
+
+@if (!string.IsNullOrWhiteSpace(_errorMessage))
+{
+    <div class="alert alert-danger">
+        @_errorMessage
+    </div>
+}
+
+@if (_server != null)
+{
+    <FieldComponent Label="服务器名称">
+        <Control>
+            <input type="text" @bind-value="@_server.Name" class="form-control"/>
+        </Control>
+    </FieldComponent>
+    <br/>
+    <button type="button" class="btn btn-primary" @onclick="GoNext">下一步</button>
+}
+
+@code {
+    private string? _errorMessage;
+
+    private Server? _server { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _server = new Server();
+            StateHasChanged();
+        }
+    }
+
+    private async Task GoNext()
+    {
+        if (_server != null)
+        {
+            if (string.IsNullOrWhiteSpace(_server.Name))
+            {
+                _errorMessage = "服务器名称无效, 请重新填写";
+            }
+            else
+            {
+                ContainerStorage.SetServer(_server);
+                NavigationManager.NavigateTo($"/cityName");
+            }
+        }
+    }
+
+}

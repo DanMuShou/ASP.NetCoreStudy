@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ServiceContracts;
-using ServiceContracts.DTO;
 
 namespace _250329_CRUDExample.Filters.ActionFilters;
 

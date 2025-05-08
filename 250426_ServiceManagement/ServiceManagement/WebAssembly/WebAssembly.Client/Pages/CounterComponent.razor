@@ -1,0 +1,54 @@
+﻿<p role="status">Current count: @_currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    //服务器会进行预渲染 客户端进行独立的渲染 导致OnInit(), SetParameter(), 调用两次
+    
+    private int _currentCount = 0;
+    private void IncrementCount()
+    {
+        _currentCount++;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        var guid = Guid.NewGuid();
+        Console.WriteLine($"{GetType().Name}: {nameof(OnInitialized)}: {guid}");
+    }
+
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        var guid = Guid.NewGuid();
+        Console.WriteLine($"{GetType().Name}: {nameof(SetParametersAsync)}: {guid}");
+        
+        return base.SetParametersAsync(parameters);
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        
+        var guid = Guid.NewGuid();
+        Console.WriteLine($"{GetType().Name}: {nameof(OnParametersSet)}: {guid}");
+    }
+
+    protected override bool ShouldRender()
+    {
+        var guid = Guid.NewGuid();
+        Console.WriteLine($"{GetType().Name}: {nameof(ShouldRender)}: {guid}");
+        
+        return base.ShouldRender();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        
+        var guid = Guid.NewGuid();
+        Console.WriteLine($"{GetType().Name}: {nameof(OnAfterRender)}: {guid}");
+    }
+
+}

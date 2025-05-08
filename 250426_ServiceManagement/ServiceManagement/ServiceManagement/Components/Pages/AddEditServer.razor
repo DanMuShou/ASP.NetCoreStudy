@@ -1,0 +1,101 @@
+﻿@page "/server/{id:int?}"
+
+@inject NavigationManager NavigationManager;
+
+@if (@Id.HasValue)
+{
+    <h3>编辑服务器</h3>
+}
+else
+{
+    <h3>添加服务器</h3>
+}
+
+@if (Server != null)
+{
+    <EditForm Model="Server" FormName="formServer" OnValidSubmit="Submit">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+
+        @if (Server.ServerId > 0)
+        {
+            <InputNumber @bind-Value="Server.ServerId" hidden=""></InputNumber>
+        }
+
+        <FieldComponent Label="名称">
+            <Control>
+                <InputText @bind-Value="Server.Name" class="form-control"></InputText>
+            </Control>
+            <ValidationControl>
+                <ValidationMessage For="() => Server.Name"></ValidationMessage>
+            </ValidationControl>
+        </FieldComponent>
+
+        <FieldComponent Label="城市">
+            <Control>
+                <InputText @bind-Value="Server.City" class="form-control"></InputText>
+            </Control>
+            <ValidationControl>
+                <ValidationMessage For="() => Server.City"></ValidationMessage>
+            </ValidationControl>
+        </FieldComponent>
+
+        <div class="row mb-3">
+            <div class="col-2">
+                <label class="col-form-label">服务器状态</label>
+            </div>
+            <div class="col-6 input-width">
+                <InputCheckbox @bind-Value="@Server.IsOnline" class="form-check-input"></InputCheckbox>
+            </div>
+        </div>
+
+
+        <br>
+        @if (Server.ServerId > 0)
+        {
+            <button class="btn btn-primary" type="submit">更新</button>
+        }
+        else
+        {
+            <button class="btn btn-primary" type="submit">保存</button>
+        }
+        &nbsp;
+        <a href="/servers" class="btn btn-primary">关闭</a>
+
+
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int? Id { get; set; }
+
+    [SupplyParameterFromQuery] public string? City { get; set; }
+    
+    [SupplyParameterFromForm] public Server? Server { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        Server ??= Id.HasValue
+            ? ServersRepository.GetServerById(Id.Value)
+            : new Server() { IsOnline = false };
+
+        if (Server != null && !string.IsNullOrEmpty(City))
+            Server.City = City;
+    }
+
+    private void Submit()
+    {
+        if (Server != null)
+        {
+            if (Id.HasValue)
+                ServersRepository.UpdateServer(Server.ServerId, Server);
+            else
+                ServersRepository.AddServer(Server);
+        }
+
+        NavigationManager.NavigateTo($"/servers/back_from/{Server?.City}");
+    }
+
+}

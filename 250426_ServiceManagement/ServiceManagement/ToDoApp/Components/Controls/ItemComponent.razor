@@ -1,0 +1,41 @@
+﻿
+@if (Item != null)
+{
+    <li @key="Item.Id">
+        <div class="row mb-2">
+            <div class="col-1" style="width: 30px">
+                <input type="checkbox"
+                       class="form-check-input"
+                       style="vertical-align: middle"
+                       checked="@Item.IsComplete"
+                       @bind-value="Item.IsComplete">
+            </div>
+            <div class="col">
+                @if (Item.IsComplete)
+                {
+                    <input type="text"
+                           class="form-control border-0 text-decoration-line-through"
+                           style="vertical-align: middle"
+                           @bind-value="Item.Name"
+                           disabled>
+                }
+                else
+                {
+                    <input type="text"
+                           class="form-control border-0"
+                           style="vertical-align: middle"
+                           @bind-value="Item.Name">
+                }
+            </div>
+            <div class="col">
+                <text style="color: @(Item.IsComplete ? "green" : "red")">
+                    @($"{(Item.IsComplete ? "完成" : "创建")}时间 : {(Item.IsComplete ? Item.CompleteTime : Item.CreatedDate).ToLongDateString()}")
+                </text>
+            </div>
+        </div>
+    </li>
+}
+
+@code {
+    [Parameter] public ToDoItem? Item { get; set; }
+}

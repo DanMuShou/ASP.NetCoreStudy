@@ -1,6 +1,4 @@
 ﻿<!DOCTYPE html>
-<html>
-
 <head>
     <title>@ViewData["Title"]</title>
     <meta charset="utf-8"/>
@@ -12,25 +10,46 @@
 
 <body>
 <div class="container">
-    <div class="navbar">
-        <img asp-append-version="true" src="~/Logo.png" width="25px" alt=""/>
-        <div style="display: inline-block" class="navbar-brand">CRUD Demo</div>
-        
-        <ul>
-            <li>
-                <a asp-controller="Person" asp-action="Home" >人员信息</a>
-                <a asp-controller="Countries" asp-action="UploadFromExcel" >上传国家Excel</a>
-            </li>
-        </ul>
-    </div>
-
     <div class="page-content">
-        @RenderBody()
+
+        <div class="margin-bottom">
+            <div class="flex" id="top-bar-div">
+                <div class="flex-1" id="app-title-div">
+                    <h1 class="app-title">
+                        <i class="fa-solid fa-people-simple"></i>
+                        Contact Manager
+                    </h1>
+                </div>
+
+
+                <div class="flex-1 pr" id="search-box-div">
+                    <div class="navbar account-links">
+                        <ul>
+                            <li>
+                                <a asp-controller="Account" asp-action="Register">Register</a>
+                                <a asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="navbar mb">
+
+            <ul>
+                <li>
+                    <a asp-controller="Person" asp-action="Home">人员信息</a>
+                    <a asp-controller="Countries" asp-action="UploadFromExcel">上传国家Excel</a>
+                </li>
+            </ul>
+        </div>
+        <div class="body">
+            @RenderBody()
+        </div>
     </div>
 </div>
-
-@RenderSection("Scripts", required: false)
-
+@RenderSection("scripts", required: false)
 </body>
-
-</html>

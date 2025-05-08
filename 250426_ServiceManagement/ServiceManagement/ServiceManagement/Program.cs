@@ -1,10 +1,16 @@
 using ServiceManagement.Components;
+using ServiceManagement.StateStore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // 添加服务交互
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+
+//添加生命周期
+// builder.Services.AddTransient<SessionStorage>();
+builder.Services.AddScoped<ContainerStorage>();
+builder.Services.AddScoped<TorontoOnlineServersStore>();
 
 var app = builder.Build();
 
@@ -28,3 +34,6 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 app.Run();
+
+
+//9 - 1

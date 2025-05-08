@@ -1,8 +1,6 @@
 ﻿using Fizzler.Systems.HtmlAgilityPack;
 using FluentAssertions;
-using FluentAssertions.Web;
 using HtmlAgilityPack;
-using Xunit.Abstractions;
 
 namespace CRUDTests;
 

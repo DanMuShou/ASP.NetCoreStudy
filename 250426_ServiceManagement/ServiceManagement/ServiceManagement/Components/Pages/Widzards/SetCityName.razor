@@ -1,0 +1,57 @@
+﻿@page "/cityName"
+
+@inject NavigationManager NavigationManager
+
+@inject ContainerStorage ContainerStorage;
+
+<h3>城市名称</h3>
+<br/>
+@if (!string.IsNullOrWhiteSpace(_errorMessage))
+{
+    <div class="alert alert-danger">
+        @_errorMessage
+    </div>
+}
+
+@if (_server != null)
+{
+    <FieldComponent Label="城市名称">
+        <Control>
+            <input type="text" @bind-value="@_server.City" class="form-control"/>
+        </Control>
+    </FieldComponent>
+    <br/>
+    <button type="button" class="btn btn-primary" @onclick="GoNext">下一步</button>
+}
+
+@code {
+    private Server? _server;
+
+    private string? _errorMessage;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _server = ContainerStorage.GetServer();
+            StateHasChanged();
+        }
+    }
+
+    private void GoNext()
+    {
+        if (_server != null)
+        {
+            if (string.IsNullOrWhiteSpace(_server.City))
+            {
+                _errorMessage = "城市名称不能为空";
+            }
+            else
+            {
+                ContainerStorage.SetServer(_server);
+                NavigationManager.NavigateTo($"/serverStatus");
+            }
+        }
+    }
+
+}

@@ -1,0 +1,16 @@
+﻿@page "/counter"
+
+<h3>Counter</h3>
+<br>
+
+@* <b>Server 模式</b> *@
+@* <CounterComponent @rendermode="InteractiveServer"></CounterComponent> *@
+@* <br> *@
+@* <br> *@
+
+<b>WebAssembly 模式</b>
+<CounterComponent @rendermode="InteractiveWebAssembly"></CounterComponent>
+
+@code {
+
+}
