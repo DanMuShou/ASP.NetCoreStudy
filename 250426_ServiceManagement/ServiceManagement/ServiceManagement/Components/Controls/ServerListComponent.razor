@@ -24,13 +24,14 @@
 <br>
 
 @code {
+    [Inject] public required IServersRepository ServersRepository { get; set; }
 
     [Parameter] public string? CityName { get; set; }
     [Parameter] public string SearchFilter { get; set; } = string.Empty;
 
     private List<Server>? _servers;
 
-    private System.Threading.Timer? _timer;
+    private Timer? _timer;
 
     // 优化性能 先进行判断有没有进行参数改变 在决定是否想服务器发送请求
     public override Task SetParametersAsync(ParameterView parameters)
@@ -54,12 +55,13 @@
         return Task.CompletedTask;
     }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
-        _servers = string.IsNullOrEmpty(SearchFilter)
-            ? ServersRepository.GetServersByCity(CityName ?? "Toronto")
-            : ServersRepository.SearchServers(SearchFilter);
+        await base.OnParametersSetAsync();
 
+        _servers = string.IsNullOrEmpty(SearchFilter)
+            ? await ServersRepository.GetServersByCityName(CityName ?? "Toronto")
+            : await ServersRepository.GetSearchServers(SearchFilter);
         Console.WriteLine("OnParametersSet");
     }
 
@@ -81,7 +83,7 @@
             _timer = new Timer(_ => { base.InvokeAsync(StateHasChanged); }, null, 2000, 2000);
         }
     }
-    
+
     public void Dispose()
     {
         _timer?.Change(Timeout.Infinite, Timeout.Infinite);

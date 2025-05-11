@@ -6,7 +6,6 @@ using ContactsManager.Core.DTO;
 using ContactsManager.Core.Enums;
 using ContactsManager.Core.ServiceContracts;
 using ContactsManager.Core.Services;
-using ContactsManager.Infrastructure.DbContext;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

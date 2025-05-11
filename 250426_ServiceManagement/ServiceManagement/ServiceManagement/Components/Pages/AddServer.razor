@@ -1,7 +1,5 @@
 ﻿@page "/servers/add"
 
-@inject NavigationManager NavigationManager
-
 <h3>Add Server</h3>
 <br>
 
@@ -51,12 +49,15 @@
 </EditForm>
 
 @code {
-    [SupplyParameterFromForm]
-    private Server Server { get; set; } = new() { IsOnline = false };
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+    [Inject] public required IServersRepository ServersRepository { get; set; }
 
-    private void Submit()
+    [SupplyParameterFromForm] private Server Server { get; } = new() { IsOnline = false };
+
+    private async Task Submit()
     {
-        ServersRepository.AddServer(Server);
+        await ServersRepository.AddServer(Server);
         NavigationManager.NavigateTo($"/servers/back_from/{Server?.City}");
     }
+
 }

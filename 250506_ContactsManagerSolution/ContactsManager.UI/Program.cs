@@ -34,9 +34,11 @@ else
     app.UseExceptionHandlingMiddleware();
 }
 
-app.UseRouting();
-app.MapControllers();
 app.UseStaticFiles();
+
+app.UseAuthentication(); // 启用身份验证中间件，用于验证用户身份（如 Cookie 认证、JWT 等）
+app.UseRouting(); // 启用路由中间件，用于解析请求路径并映射到对应的控制器/动作方法
+app.MapControllers(); // 将控制器（Controller）中的 API 路由注册到应用中，支持属性路由等机制
 
 //提供标准化的日志记录功能，专注于记录 HTTP 请求和响应的详细信息（如请求头、路径、查询字符串等）。
 app.UseHttpLogging();
@@ -48,4 +50,4 @@ app.Run();
 
 partial class Program { }
 
-//24 - 4 end
+//25 - 9

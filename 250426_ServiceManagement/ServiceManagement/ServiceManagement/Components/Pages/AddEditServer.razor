@@ -1,7 +1,5 @@
 ﻿@page "/server/{id:int?}"
 
-@inject NavigationManager NavigationManager;
-
 @if (@Id.HasValue)
 {
     <h3>编辑服务器</h3>
@@ -67,34 +65,37 @@ else
 }
 
 @code {
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+    [Inject] public required IServersRepository ServersRepository { get; set; }
+
+
     [Parameter] public int? Id { get; set; }
 
     [SupplyParameterFromQuery] public string? City { get; set; }
-    
+
     [SupplyParameterFromForm] public Server? Server { get; set; }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
-        base.OnParametersSet();
+        await base.OnParametersSetAsync();
 
         Server ??= Id.HasValue
-            ? ServersRepository.GetServerById(Id.Value)
+            ? await ServersRepository.GetServerByServerId(Id.Value)
             : new Server() { IsOnline = false };
 
         if (Server != null && !string.IsNullOrEmpty(City))
             Server.City = City;
     }
 
-    private void Submit()
+    private async Task Submit()
     {
         if (Server != null)
         {
             if (Id.HasValue)
-                ServersRepository.UpdateServer(Server.ServerId, Server);
+                await ServersRepository.UpdateServer( Server);
             else
-                ServersRepository.AddServer(Server);
+                await  ServersRepository.AddServer(Server);
         }
-
         NavigationManager.NavigateTo($"/servers/back_from/{Server?.City}");
     }
 

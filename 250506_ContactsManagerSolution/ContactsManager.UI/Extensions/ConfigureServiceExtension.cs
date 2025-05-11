@@ -1,10 +1,13 @@
-﻿using ContactsManager.Core.Domain.RepositoryContract;
+﻿using ContactsManager.Core.Domain.IdentityEntities;
+using ContactsManager.Core.Domain.RepositoryContract;
 using ContactsManager.Core.ServiceContracts;
 using ContactsManager.Core.Services;
-using ContactsManager.Infrastructure.DbContext;
+using ContactsManager.Infrastructure.AppDbContext;
 using ContactsManager.Infrastructure.Repositories;
 using ContactsManagerSolution.Filters.ActionFilters;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ContactsManagerSolution.Extensions;
@@ -51,7 +54,6 @@ public static class ConfigureServiceExtension
         service.AddScoped<ICountriesGetterService, CountriesGetterService>();
         service.AddScoped<ICountriesUploaderService, CountriesUploaderService>();
 
-
         //每次从DI容器请求PersonListActionFilter实例时，都会创建一个全新实例
         //适合轻量级无状态对象，资源消耗最低
         service.AddTransient<PersonListActionFilter>();
@@ -74,6 +76,31 @@ public static class ConfigureServiceExtension
                 wkhtmltopdfRelativePath: "Rotativa"
             );
         }
+
+        //这行代码向依赖注入容器注册了 ASP.NET Core Identity 系统。
+        service
+            //使用了自定义的 ApplicationUser（继承自 IdentityUser）和 ApplicationRole（继承自 IdentityRole）作为用户和角色实体类。
+            .AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.Password.RequireDigit = true; // 要求数字
+                options.Password.RequireLowercase = true; // 要求小写字母
+                options.Password.RequireUppercase = true; // 要求大写字母
+                options.Password.RequireNonAlphanumeric = false; // 默认为 true，即要求非字母数字字符（符号）
+                options.Password.RequiredLength = 8; // 密码最小长度
+            })
+            //指定 Identity 系统将使用 Entity Framework Core 来持久化用户、角色等信息。
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            //添加默认的令牌提供程序 -> 用户注册时的电子邮件确认 密码重置 两步验证
+            .AddDefaultTokenProviders()
+            //明确指定使用 UserStore 泛型实现来管理用户数据。
+            .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
+            //该行代码的作用是为 ASP.NET Core Identity 系统显式注册一个自定义的角色存储实现,用于管理角色（Role）数据的持久化操作。
+            .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
+
+        // ApplicationUser: 自定义用户实体。
+        // ApplicationRole: 自定义角色实体。
+        // ApplicationDbContext: 数据库上下文。
+        // Guid: 用户主键类型（通常是 string 或 Guid）
 
         return service;
     }

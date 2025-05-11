@@ -1,6 +1,6 @@
 ﻿using ContactsManager.Core.Domain.Entities;
 using ContactsManager.Core.Domain.RepositoryContract;
-using ContactsManager.Infrastructure.DbContext;
+using ContactsManager.Infrastructure.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 
 namespace ContactsManager.Infrastructure.Repositories;

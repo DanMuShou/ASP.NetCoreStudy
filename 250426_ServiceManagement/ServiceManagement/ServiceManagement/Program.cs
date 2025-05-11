@@ -1,7 +1,24 @@
+using Microsoft.EntityFrameworkCore;
 using ServiceManagement.Components;
+using ServiceManagement.Data;
+using ServiceManagement.Models;
 using ServiceManagement.StateStore;
 
 var builder = WebApplication.CreateBuilder(args);
+var builderConfig = builder.Configuration;
+
+//默认生命周期是 Scoped（每个请求一个实例）。
+// builder.Services.AddDbContext<ServerManagementContext>(options =>
+// {
+//     options.UseNpgsql(builderConfig.GetConnectionString("DefaultConnection"));
+// });
+
+//用于按需创建上下文实例，适用于你需要手动控制上下文创建时机的场景，比如在后台任务、仓储模式或非依赖注入的类中使用。
+//注入 IDbContextFactory<ServerManagementContext> 然后创建上下文：
+builder.Services.AddDbContextFactory<ServerManagementContext>(options =>
+{
+    options.UseNpgsql(builderConfig.GetConnectionString("DefaultConnection"));
+});
 
 // Add services to the container.
 // 添加服务交互
@@ -11,6 +28,9 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 // builder.Services.AddTransient<SessionStorage>();
 builder.Services.AddScoped<ContainerStorage>();
 builder.Services.AddScoped<TorontoOnlineServersStore>();
+
+//防止多线程导致的问题
+builder.Services.AddTransient<IServersRepository, ServersRepository>();
 
 var app = builder.Build();
 

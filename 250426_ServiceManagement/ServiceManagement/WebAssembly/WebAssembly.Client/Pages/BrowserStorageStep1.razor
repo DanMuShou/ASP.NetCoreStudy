@@ -1,42 +1,29 @@
-﻿@page "/browserWasm1"
+﻿@page "/browser_wasm_1"
 
 @rendermode InteractiveWebAssembly
 
-@inject IJSRuntime JsRuntime;
-@inject NavigationManager NavigationManager;
-@inject ContainerStorage ContainerStorage;
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
-<h3>浏览器存储 1</h3>
-<br>
-<br>
+@inject ContainerStorage ContainerStorage
 
-<input type="text" class="form-control" @bind-value="_data">
-<br>
-<br>
+<h3>Browser Storage Step 1</h3>
+<br/>
+<br/>
 
-<button type="button" class="btn btn-primary" @onclick="GoNext">保存</button>
+<input type="text" class="form-control" @bind-value="data"/>
+<br/>
+<br/>
+<button type="button" class="btn btn-primary" @onclick="GoNext">Next</button>
 
 @code {
-    private string _data = string.Empty;
+    private string data = "";
 
-    //表示你在组件的 OnInitializedAsync 方法中调用了 JSRuntime.InvokeAsync，而当前组件正处于 预渲染（Prerendering）阶段，
-    //此时 无法进行 JS 交互。
     private async Task GoNext()
     {
-        // await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "demo-data", _data);
-        ContainerStorage.SetMessage(_data);
-        NavigationManager.NavigateTo("/browserWasm2");
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-        {
-            Console.WriteLine($"FirstRender");
-        }
-
-        Console.WriteLine($"browserWasm1:{nameof(OnAfterRenderAsync)}");
+        //await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "demo-data", data);
+        ContainerStorage.SetMessage(data);
+        NavigationManager.NavigateTo("/browser_wasm_2");
     }
 
 }

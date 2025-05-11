@@ -3,10 +3,6 @@
 
 @rendermode InteractiveServer
 
-@inject NavigationManager NavigationManager;
-@inject TorontoOnlineServersStore TorontoOnlineServersStore;
-
-
 <h3>Servers</h3>
 <br>
 <br>
@@ -31,9 +27,13 @@
 </p>
 
 @code {
-    [Parameter]
-    public string? CityName { get; set; }
-    
+    [Inject] public required TorontoOnlineServersStore TorontoOnlineServersStore { get; set; }
+    [Inject] public required IServersRepository ServersRepository { get; set; }
+
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+
+    [Parameter] public string? CityName { get; set; }
+
     private string _selectCity = "Toronto";
     private string _serverFilter = string.Empty;
 
@@ -54,7 +54,7 @@
         _cityListComponent?.ClearSelection();
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
@@ -64,9 +64,11 @@
                 StateHasChanged();
             }
 
-            var serversToronto = ServersRepository.GetServersByCity("Toronto");
+            var serversToronto = await ServersRepository.GetServersByCityName("Toronto");
             TorontoOnlineServersStore.SetNumbersServerOnline((serversToronto.Count(s => s.IsOnline)));
         }
+
+        await base.OnAfterRenderAsync(firstRender);
     }
 
 }

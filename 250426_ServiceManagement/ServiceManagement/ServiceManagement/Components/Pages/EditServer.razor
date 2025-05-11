@@ -1,9 +1,5 @@
 ﻿@page "/servers/{serverId:int}"
 
-@* 用于从 Blazor 的依赖注入（DI）容器中获取 NavigationManager 服务。 *@
-@inject NavigationManager NavigationManager;
-@inject IJSRuntime JSRuntime
-
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"
                 ConfirmExternalNavigation="true"></NavigationLock>
 
@@ -59,6 +55,12 @@
 <br>
 
 @code {
+    @* 用于从 Blazor 的依赖注入（DI）容器中获取 NavigationManager 服务。 *@
+    [Inject] public required IServersRepository ServersRepository { get; set; }
+    
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+    [Inject] public required IJSRuntime JsRuntime { get; set; }
+
 
     //表示该属性是组件间通信的参数，允许父组件向当前Blazor组件传递数据。
     //从路由中捕获动态片段（{serverId}），使组件能够根据不同的 ServerId 值处理对应的服务器编辑逻辑（如加载特定服务器的数据）。
@@ -72,25 +74,24 @@
 
 
     //参数改变会覆盖原先参数 使用??=初始化
-    protected override void OnParametersSet()
+
+    protected override async Task OnParametersSetAsync()
     {
-        base.OnParametersSet();
-        Server ??= ServersRepository.GetServerById(ServerId);
+        await base.OnParametersSetAsync();
+        Server ??= await ServersRepository.GetServerByServerId(ServerId);
     }
 
-    private void Submit()
+    private async Task Submit()
     {
         if (Server != null)
-        {
-            ServersRepository.UpdateServer(Server.ServerId, Server);
-        }
+            await ServersRepository.UpdateServer(Server);
 
         NavigationManager.NavigateTo($"/servers/back_from/{Server?.City}");
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
     {
-        var result = await JSRuntime.InvokeAsync<bool>("confirm", "你想要离开这个页面吗");
+        var result = await JsRuntime.InvokeAsync<bool>("confirm", "你想要离开这个页面吗");
         if (!result)
         {
             context.PreventNavigation();

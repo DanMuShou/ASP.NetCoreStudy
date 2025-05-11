@@ -2,55 +2,55 @@
 
 @rendermode InteractiveServer
 
-@inject NavigationManager NavigationManager
-@inject ContainerStorage ContainerStorage;
-
 <h3>服务器状态</h3>
 
-<br/>
-@if (!string.IsNullOrWhiteSpace(_errorMessage))
-{
-    <div class="alert alert-danger">
-        @_errorMessage
-    </div>
-}
+@* <br/> *@
+@* @if (!string.IsNullOrWhiteSpace(_errorMessage)) *@
+@* { *@
+@*     <div class="alert alert-danger"> *@
+@*         @_errorMessage *@
+@*     </div> *@
+@* } *@
+
 @if (_server != null)
 {
-    
-<FieldComponent Label="服务器状态">
-    <Control>
-        <input type="checkbox"
-               @bind-value="@_server.IsOnline"
-               class="form-check-input"/>
-    </Control>
-</FieldComponent>
-<br/>
-<button type="button" class="btn btn-primary" @onclick="Save">保存</button>
-
+    <FieldComponent Label="服务器状态">
+        <Control>
+            <input type="checkbox"
+                   @bind-value="@_server.IsOnline"
+                   class="form-check-input"/>
+        </Control>
+    </FieldComponent>
+    <br/>
+    <button type="button" class="btn btn-primary" @onclick="Save">保存</button>
 }
+
 @code {
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+    [Inject] public required ContainerStorage ContainerStorage { get; set; }
+    [Inject] public required IServersRepository ServersRepository { get; set; }
 
     private Server? _server;
-    
-    private string? _errorMessage;
+    // private string? _errorMessage;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
+        base.OnAfterRender(firstRender);
         if (firstRender)
         {
-            _server = ContainerStorage.GetServer();
+            _server = ContainerStorage?.GetServer();
             StateHasChanged();
         }
     }
 
-    private void Save()
+    private async Task Save()
     {
         if (_server == null)
             return;
 
-        ContainerStorage.SetServer(null);
-        ServersRepository.AddServer(_server);
+        ContainerStorage.SetServer(new Server());
         NavigationManager.NavigateTo($"/servers/back_from/{_server.City}");
+        await ServersRepository.AddServer(_server);
     }
 
 }

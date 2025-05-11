@@ -1,0 +1,108 @@
+﻿@model RegisterDto
+@{
+    ViewBag.Title = "注册";
+    ViewBag.CurrentUrl = "~/Account/Register";
+}
+
+<div class="text-grey">
+    <span>联系人</span>
+    <i class="fa-solid fa-caret-right"></i>
+    <span>注册</span>
+</div>
+
+<div class="form-container">
+    已注册 ? <a asp-controller="Account" asp-action="Login" class="link-hover">登录</a>
+    <h2 class="text-large">注册</h2>
+
+    <form asp-controller="Account" asp-action="Register" method="post">
+
+        @* 名称 *@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="PersonName" class="form-label">名称</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="PersonName" class="form-input" placeholder="请输入名称">
+                <span asp-validation-for="PersonName" class="text-red"></span>
+            </div>
+        </div>
+
+        @* 邮箱 *@
+        <div class="form-field flex">
+            <div class="w-25">
+
+                <label asp-for="Email" class="form-label">邮箱</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="Email" class="form-input" placeholder="请输入邮箱">
+                <span asp-validation-for="Email" class="text-red"></span>
+            </div>
+        </div>
+
+        @* 电话 *@
+        <div class="form-field flex">
+            <div class="w-25">
+
+                <label asp-for="Phone" class="form-label">电话</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="Phone" class="form-input" placeholder="请输入电话">
+                <span asp-validation-for="Phone" class="text-red"></span>
+            </div>
+        </div>
+
+        @* 密码 *@
+        <div class="form-field flex">
+            <div class="w-25">
+
+                <label asp-for="Password" class="form-label">密码</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="Password" class="form-input" placeholder="请输入密码">
+                <span asp-validation-for="Password" class="text-red"></span>
+            </div>
+        </div>
+
+        @* 确认密码 *@
+        <div class="form-field flex">
+            <div class="w-25">
+
+                <label asp-for="ConfirmPassword" class="form-label">确认密码</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="ConfirmPassword" class="form-input" placeholder="请再次输入密码">
+                <span asp-validation-for="ConfirmPassword" class="text-red"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="button button-green-back">注册</button>
+        <div asp-validation-summary="All" class="text-red"></div>
+
+        @if (ViewBag.Errors != null)
+        {
+            <div class="text-red ml">
+                <ul>
+                    @foreach (var error in ViewBag.Errors)
+                    {
+                        <li class="ml">@error.ToString()</li>
+                    }
+                </ul>
+            </div>
+        }
+
+    </form>
+</div>
+
+@section scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" asp-fallback-test="window.jQuery"
+            asp-fallback-src="~/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js"
+            asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js"></script>
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"
+        asp-fallback-test="window.jQuery.validator.unobstrusive"
+        asp-fallback-src="~/jquery.validate.unobtrusive.min.js"></script>
+}

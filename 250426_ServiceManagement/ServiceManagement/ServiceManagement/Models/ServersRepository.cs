@@ -1,153 +1,81 @@
-﻿namespace ServiceManagement.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ServiceManagement.Data;
 
-public class ServersRepository
+namespace ServiceManagement.Models;
+
+public class ServersRepository(IDbContextFactory<ServerManagementContext> contextFactory)
+    : IServersRepository
 {
-    private static readonly List<Server> Servers =
-    [
-        new Server
-        {
-            ServerId = 2,
-            Name = "Server2",
-            City = "Toronto",
-        },
-        new Server
-        {
-            ServerId = 1,
-            Name = "Server1",
-            City = "Toronto",
-        },
-        new Server
-        {
-            ServerId = 3,
-            Name = "Server3",
-            City = "Toronto",
-        },
-        new Server
-        {
-            ServerId = 4,
-            Name = "Server4",
-            City = "Toronto",
-        },
-        new Server
-        {
-            ServerId = 5,
-            Name = "Server5",
-            City = "Montreal",
-        },
-        new Server
-        {
-            ServerId = 6,
-            Name = "Server6",
-            City = "Montreal",
-        },
-        new Server
-        {
-            ServerId = 7,
-            Name = "Server7",
-            City = "Montreal",
-        },
-        new Server
-        {
-            ServerId = 8,
-            Name = "Server8",
-            City = "Ottawa",
-        },
-        new Server
-        {
-            ServerId = 9,
-            Name = "Server9",
-            City = "Ottawa",
-        },
-        new Server
-        {
-            ServerId = 10,
-            Name = "Server10",
-            City = "Calgary",
-        },
-        new Server
-        {
-            ServerId = 11,
-            Name = "Server11",
-            City = "Calgary",
-        },
-        new Server
-        {
-            ServerId = 12,
-            Name = "Server12",
-            City = "Halifax",
-        },
-        new Server
-        {
-            ServerId = 13,
-            Name = "Server13",
-            City = "Halifax",
-        },
-    ];
+    #region SaveChange
 
-    public static void AddServer(Server context)
+    public async Task AddServer(Server server)
     {
-        var maxId = Servers.Max(s => s.ServerId);
-        context.ServerId = maxId + 1;
-        Servers.Add(context);
+        await using var db = await contextFactory.CreateDbContextAsync();
+        await db.Servers.AddAsync(server);
+        await db.SaveChangesAsync();
     }
 
-    public static List<Server> GetServer() => Servers;
-
-    public static List<Server> GetServersByCity(string cityName)
+    public async Task<Server> UpdateServer(Server updatedServer)
     {
-        return Servers
-            .Where(s =>
-                s.City != null && s.City.Equals(cityName, StringComparison.OrdinalIgnoreCase)
-            )
-            .ToList();
+        await using var db = await contextFactory.CreateDbContextAsync();
+        var server = await db.Servers.FirstOrDefaultAsync(s =>
+            s.ServerId == updatedServer.ServerId
+        );
+
+        if (server == null)
+            return updatedServer;
+
+        server.ServerId = updatedServer.ServerId;
+        server.Name = updatedServer.Name;
+        server.City = updatedServer.City;
+        server.IsOnline = updatedServer.IsOnline;
+        await db.SaveChangesAsync();
+
+        return server;
     }
 
-    public static Server? GetServerById(int id)
+    public async Task<bool> DeleteServerByServerId(int serverId)
     {
-        var server = Servers.FirstOrDefault(s => s.ServerId == id);
-        if (server != null)
-        {
-            return new Server
-            {
-                ServerId = server.ServerId,
-                Name = server.Name,
-                City = server.City,
-                IsOnline = server.IsOnline,
-            };
-        }
-
-        return null;
+        await using var db = await contextFactory.CreateDbContextAsync();
+        db.Servers.RemoveRange(db.Servers.Where(s => s.ServerId == serverId));
+        return await db.SaveChangesAsync() > 0;
     }
 
-    public static void UpdateServer(int serverId, Server context)
-    {
-        if (serverId != context.ServerId)
-            return;
+    #endregion
 
-        var serverToUpdate = Servers.FirstOrDefault(s => s.ServerId == serverId);
-        if (serverToUpdate != null)
-        {
-            serverToUpdate.IsOnline = context.IsOnline;
-            serverToUpdate.Name = context.Name;
-            serverToUpdate.City = context.City;
-        }
+    #region GetAndNotSave
+
+    public async Task<List<Server>> GetAllServers()
+    {
+        await using var db = await contextFactory.CreateDbContextAsync();
+        var servers = await db.Servers.ToListAsync();
+        return servers;
     }
 
-    public static void DeleteServer(int serverId)
+    public async Task<List<Server>> GetServersByCityName(string cityName)
     {
-        var server = Servers.FirstOrDefault(s => s.ServerId == serverId);
-        if (server != null)
-        {
-            Servers.Remove(server);
-        }
+        await using var db = await contextFactory.CreateDbContextAsync();
+        var servers = await db
+            .Servers.Where(s => s.City != null && s.City.ToLower().Equals(cityName.ToLower()))
+            .ToListAsync();
+        return servers;
     }
 
-    public static List<Server> SearchServers(string serverFilter)
+    public async Task<Server?> GetServerByServerId(int id)
     {
-        return Servers
-            .Where(s =>
-                s.Name != null && s.Name.Contains(serverFilter, StringComparison.OrdinalIgnoreCase)
-            )
-            .ToList();
+        await using var db = await contextFactory.CreateDbContextAsync();
+        var server = await db.Servers.FirstOrDefaultAsync(s => s.ServerId == id);
+        return server;
     }
+
+    public async Task<List<Server>> GetSearchServers(string serverFilter)
+    {
+        await using var db = await contextFactory.CreateDbContextAsync();
+        var servers = await db
+            .Servers.Where(s => s.Name != null && s.Name.ToLower().Contains(serverFilter.ToLower()))
+            .ToListAsync();
+        return servers;
+    }
+
+    #endregion
 }

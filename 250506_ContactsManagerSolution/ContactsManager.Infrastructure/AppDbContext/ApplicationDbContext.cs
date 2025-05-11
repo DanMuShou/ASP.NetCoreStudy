@@ -1,10 +1,15 @@
 ﻿using System.Text.Json;
 using ContactsManager.Core.Domain.Entities;
+using ContactsManager.Core.Domain.IdentityEntities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ContactsManager.Infrastructure.DbContext;
+namespace ContactsManager.Infrastructure.AppDbContext;
 
-public class ApplicationDbContext(DbContextOptions options) : Microsoft.EntityFrameworkCore.DbContext(options)
+//DbContext EF Core 的核心基类，提供与数据库交互的基础功能（如查询、保存实体等
+//IdentityDbContext<> 继承自 DbContext，是专门用于支持 ASP.NET Core Identity 功能的上下文类
+public class ApplicationDbContext(DbContextOptions options)
+    : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>(options)
 {
     //一个db对应一个表
     public virtual DbSet<Country> Countries { get; set; }

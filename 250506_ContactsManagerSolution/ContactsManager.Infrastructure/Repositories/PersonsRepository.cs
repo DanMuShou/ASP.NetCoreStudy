@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using ContactsManager.Core.Domain.Entities;
 using ContactsManager.Core.Domain.RepositoryContract;
-using ContactsManager.Infrastructure.DbContext;
+using ContactsManager.Infrastructure.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

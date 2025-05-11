@@ -1,6 +1,4 @@
-﻿@inject NavigationManager NavigationManager
-@inject TorontoOnlineServersStore TorontoOnlineServersStore;
-
+﻿
 @if (Server != null)
 {
   <tr style="background-color: @GetBackgroundColor()">
@@ -38,21 +36,20 @@
 }
 
 @code {
+  [Inject] public required IServersRepository ServersRepository { get; set; }
+  [Inject] public required TorontoOnlineServersStore TorontoOnlineServersStore { get; set; }
+
+  [Inject] public required NavigationManager NavigationManager { get; set; }
+
   [Parameter] public Server? Server { get; set; }
 
   [CascadingParameter(Name = "SelectedCity")]
   public string? SelectedCity { get; set; }
 
-  private void ChangeStatus()
-  {
-    if (Server != null)
-      Server.IsOnline = !Server.IsOnline;
-  }
-
   private void DeleteServer(int serverId)
   {
     if (serverId <= 0) return;
-    ServersRepository.DeleteServer(serverId);
+    ServersRepository.DeleteServerByServerId(serverId);
     NavigationManager.NavigateTo("/servers", true);
   }
 
@@ -60,27 +57,24 @@
   {
     if (!string.IsNullOrEmpty(SelectedCity))
     {
-      switch (SelectedCity)
+      return SelectedCity switch
       {
-        case "Toronto": return "powderblue";
-        case "Montreal": return "lightgray";
-        case "Ottawa": return "palegreen";
-        case "Calgary": return "pink";
-        case "Halifax": return "white";
-        default: return string.Empty;
-      }
+        "Toronto" => "powderblue",
+        "Montreal" => "lightgray",
+        "Ottawa" => "palegreen",
+        "Calgary" => "pink",
+        "Halifax" => "white",
+        _ => string.Empty
+      };
     }
-    else
-    {
-      return string.Empty;
-    }
+
+    return string.Empty;
   }
 
   private void SetStateStatus(bool status)
   {
     if (Server?.City == null || Server.IsOnline == status) return;
 
-    Server.IsOnline = status;
     if (Server.City.Equals("Toronto", StringComparison.OrdinalIgnoreCase))
     {
       var num = TorontoOnlineServersStore.GetNumberServersOnline();
@@ -89,6 +83,9 @@
       else if (num > 1)
         TorontoOnlineServersStore.SetNumbersServerOnline(num - 1);
     }
+
+    Server.IsOnline = status;
+    ServersRepository.UpdateServer(Server);
   }
 
 }
