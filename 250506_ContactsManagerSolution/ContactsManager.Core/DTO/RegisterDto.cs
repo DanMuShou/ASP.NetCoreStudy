@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ContactsManager.Core.Enums;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ContactsManager.Core.DTO;
 
@@ -9,6 +11,11 @@ public class RegisterDto
 
     [Required(ErrorMessage = "邮箱不能为空")]
     [EmailAddress(ErrorMessage = "邮箱格式不正确")]
+    [Remote(
+        action: "IsEmailAlreadyRegistered",
+        controller: "Account",
+        ErrorMessage = "邮箱已经注册"
+    )]
     [DataType(DataType.EmailAddress)]
     public required string Email { get; init; }
 
@@ -29,4 +36,6 @@ public class RegisterDto
     [Compare("Password", ErrorMessage = "两次输入的密码不一致")]
     [DataType(DataType.Password)]
     public required string ConfirmPassword { get; init; }
+
+    public UserTypeOptions UserType { get; init; } = UserTypeOptions.User;
 }

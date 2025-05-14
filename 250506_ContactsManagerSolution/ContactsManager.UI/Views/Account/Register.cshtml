@@ -50,6 +50,20 @@
                 <span asp-validation-for="Phone" class="text-red"></span>
             </div>
         </div>
+        
+        @* 身份管理 *@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="UserType" class="form-label">用户类型</label>
+            </div>
+            <div class="flex-1">
+                <input type="radio" id="User" asp-for="UserType" value="@nameof(UserTypeOptions.User)" checked="">
+                <label for="User">用户</label>
+                
+                <input type="radio" id="Admin" asp-for="UserType" value="@nameof(UserTypeOptions.Admin)">
+                <label for="Admin">管理员</label>
+            </div>
+        </div>
 
         @* 密码 *@
         <div class="form-field flex">

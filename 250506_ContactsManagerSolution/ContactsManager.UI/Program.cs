@@ -34,11 +34,23 @@ else
     app.UseExceptionHandlingMiddleware();
 }
 
+//强制使用https
+app.UseHsts();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseAuthentication(); // 启用身份验证中间件，用于验证用户身份（如 Cookie 认证、JWT 等）
 app.UseRouting(); // 启用路由中间件，用于解析请求路径并映射到对应的控制器/动作方法
 app.MapControllers(); // 将控制器（Controller）中的 API 路由注册到应用中，支持属性路由等机制
+
+app.MapControllerRoute(name: "default", pattern: "{controller}/{action}/{id?}");
+
+//Admin路径
+app.MapControllerRoute(name: "areas", pattern: "{area:exists}/{controller=Home}/{action=Index}");
+
+app.UseAuthentication(); // 启用身份验证中间件，用于验证用户身份（如 Cookie 认证、JWT 等）
+
+//必须在 UseAuthentication() 之后调用。它基于用户的身份（由 UseAuthentication() 设置的 HttpContext.User）来判断当前请求是否有权限访问目标资源。
+app.UseAuthorization();
 
 //提供标准化的日志记录功能，专注于记录 HTTP 请求和响应的详细信息（如请求头、路径、查询字符串等）。
 app.UseHttpLogging();
@@ -50,4 +62,4 @@ app.Run();
 
 partial class Program { }
 
-//25 - 9
+//25 - 19

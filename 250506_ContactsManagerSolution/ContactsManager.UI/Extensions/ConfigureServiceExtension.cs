@@ -5,6 +5,7 @@ using ContactsManager.Core.Services;
 using ContactsManager.Infrastructure.AppDbContext;
 using ContactsManager.Infrastructure.Repositories;
 using ContactsManagerSolution.Filters.ActionFilters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -14,7 +15,7 @@ namespace ContactsManagerSolution.Extensions;
 
 public static class ConfigureServiceExtension
 {
-    public static IServiceCollection ConfigureServices(
+    public static void ConfigureServices(
         this IServiceCollection service,
         IWebHostEnvironment builderEnvironment,
         ConfigurationManager builderConfiguration
@@ -77,6 +78,24 @@ public static class ConfigureServiceExtension
             );
         }
 
+        service
+            .AddAuthorizationBuilder()
+            .SetFallbackPolicy(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build())
+            .AddPolicy(
+                "NotAuthenticated",
+                policy =>
+                {
+                    policy.RequireAssertion(context =>
+                        context.User.Identity is not { IsAuthenticated: true }
+                    );
+                }
+            );
+
+        service.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = "/Account/Login";
+        });
+
         //这行代码向依赖注入容器注册了 ASP.NET Core Identity 系统。
         service
             //使用了自定义的 ApplicationUser（继承自 IdentityUser）和 ApplicationRole（继承自 IdentityRole）作为用户和角色实体类。
@@ -87,6 +106,7 @@ public static class ConfigureServiceExtension
                 options.Password.RequireUppercase = true; // 要求大写字母
                 options.Password.RequireNonAlphanumeric = false; // 默认为 true，即要求非字母数字字符（符号）
                 options.Password.RequiredLength = 8; // 密码最小长度
+                options.Password.RequiredUniqueChars = 4; // 密码要求包含的字符数
             })
             //指定 Identity 系统将使用 Entity Framework Core 来持久化用户、角色等信息。
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -101,7 +121,5 @@ public static class ConfigureServiceExtension
         // ApplicationRole: 自定义角色实体。
         // ApplicationDbContext: 数据库上下文。
         // Guid: 用户主键类型（通常是 string 或 Guid）
-
-        return service;
     }
 }
